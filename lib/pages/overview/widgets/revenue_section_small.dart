@@ -57,7 +57,7 @@ class RevenueSectionSmall extends StatelessWidget {
                           Row(
                             children: [
                               RevenueInfo(
-                                title: "Toda\'s revenue",
+                                title: "Revenue",
                                 amount: "230",
                               ),
                               RevenueInfo(

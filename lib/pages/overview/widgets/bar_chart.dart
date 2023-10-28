@@ -14,7 +14,9 @@ class SimpleBarChart extends StatelessWidget {
     return SimpleBarChart(
       _createSampleData(),
       // Disable animations for image tests.
-      animate: false,
+      animate: true,
+    
+
     );
   }
 
@@ -29,13 +31,13 @@ class SimpleBarChart extends StatelessWidget {
   /// Create one series with sample hard coded data.
   static List<charts.Series<OrdinalSales, String>> _createSampleData() {
     final data = [
-      OrdinalSales('Today', 55),
-      OrdinalSales('Yesterday', 25),
-      OrdinalSales('2 days', 100),
-      OrdinalSales('24 Jun', 75),
-      OrdinalSales('23 Jun', 15),
-      OrdinalSales('22 Jun', 85),
-      OrdinalSales('21 Jun', 45),
+      OrdinalSales('Jan', 55),
+      OrdinalSales('Feb', 25),
+      OrdinalSales('Mar', 200),
+      OrdinalSales('Apr', 75),
+      OrdinalSales('May', 15),
+      OrdinalSales('Jun', 85),
+      OrdinalSales('Jul', 45),
     ];
 
     return [

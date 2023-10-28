@@ -29,6 +29,8 @@ class MenuController extends GetxController {
         return _customIcon(Icons.drive_eta, itemName);
       case clientsPageDisplayName:
         return _customIcon(Icons.people_alt_outlined, itemName);
+      case controlPageDisplayName:
+        return _customIcon(Icons.keyboard_command_key, itemName);
       case authenticationPageDisplayName:
         return _customIcon(Icons.exit_to_app, itemName);
       default:
@@ -37,11 +39,11 @@ class MenuController extends GetxController {
   }
 
   Widget _customIcon(IconData icon, String itemName) {
-    if (isActive(itemName)) return Icon(icon, size: 22, color: dark);
+    if (isActive(itemName)) return Icon(icon, size: 30, color: Colors.white);
 
     return Icon(
       icon,
-      color: isHovering(itemName) ? dark : lightGrey,
+      color: isHovering(itemName) ? Colors.white : dark,
     );
   }
 }

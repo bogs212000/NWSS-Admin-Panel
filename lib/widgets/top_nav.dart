@@ -12,8 +12,8 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
                 Padding(
                   padding: const EdgeInsets.only(left: 16),
                   child: Image.asset(
-                    "assets/icons/logo.png",
-                    width: 28,
+                    "assets/icons/analytics_icon.png",
+                    width: 30, color: Colors.white,
                   ),
                 ),
               ],
@@ -28,8 +28,8 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
           Visibility(
               visible: !ResponsiveWidget.isSmallScreen(context),
               child: const CustomText(
-                text: "Dash",
-                color: lightGrey,
+                text: "Admin",
+                color: dark,
                 size: 20,
                 weight: FontWeight.bold,
               )),
@@ -71,7 +71,7 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
           const SizedBox(
             width: 24,
           ),
-          const CustomText(
+          ResponsiveWidget.isSmallScreen(context) ? SizedBox() :CustomText(
             text: "Garry Earl D. Lontes",
             color: lightGrey,
           ),

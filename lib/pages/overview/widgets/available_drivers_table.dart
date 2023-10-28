@@ -27,7 +27,7 @@ class AvailableDriversTable extends StatelessWidget {
                 width: 10,
               ),
               CustomText(
-                text: "Available Drivers",
+                text: "Last Transactions",
                 color: lightGrey,
                 weight: FontWeight.bold,
               ),
@@ -50,7 +50,7 @@ class AvailableDriversTable extends StatelessWidget {
                   label: Text('Location'),
                 ),
                 DataColumn(
-                  label: Text('Rating'),
+                  label: Text('Payments'),
                 ),
                 DataColumn(
                   label: Text('Action'),
@@ -60,15 +60,15 @@ class AvailableDriversTable extends StatelessWidget {
                 7,
                 (index) => DataRow(
                   cells: [
-                    const DataCell(CustomText(text: "Santos Enoque")),
-                    const DataCell(CustomText(text: "New yourk city")),
+                    const DataCell(CustomText(text: "Garry Earl Lontes")),
+                    const DataCell(CustomText(text: "Sandoval Narra, Palawan")),
                     const DataCell(
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.star, color: Colors.deepOrange, size: 18),
+                          Icon(Icons.money, color: Colors.blue, size: 18),
                           SizedBox(width: 5),
-                          CustomText(text: "4.5"),
+                          CustomText(text: "230"),
                         ],
                       ),
                     ),
@@ -77,12 +77,12 @@ class AvailableDriversTable extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: light,
                           borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: active, width: .5),
+                          border: Border.all(color: Colors.green.shade500, width: .5),
                         ),
                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                         child: CustomText(
-                          text: "Assign Delivery",
-                          color: active.withOpacity(.7),
+                          text: "Paying",
+                          color: Colors.green.withOpacity(.7),
                           weight: FontWeight.bold,
                         ),
                       ),

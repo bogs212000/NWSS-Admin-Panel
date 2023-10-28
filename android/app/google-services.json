@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "141739949557",
+    "project_id": "nwss-database",
+    "storage_bucket": "nwss-database.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:141739949557:android:6e2e149a24741aee0df4bc",
+        "android_client_info": {
+          "package_name": "com.example.nwss"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKfKUF6Z_S3K7FfuN0pTRvPEEBqZEXfBg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -9,6 +9,9 @@ const driversPageRoute = "/drivers";
 const clientsPageDisplayName = "Clients";
 const clientsPageRoute = "/clients";
 
+const controlPageDisplayName = "Control";
+const controlPageRoute = "/control";
+
 const authenticationPageDisplayName = "Log out";
 const authenticationPageRoute = "/auth";
 
@@ -25,5 +28,6 @@ List<MenuItem> sideMenuItemRoutes = [
  MenuItem(overviewPageDisplayName, overviewPageRoute),
  MenuItem(driversPageDisplayName, driversPageRoute),
  MenuItem(clientsPageDisplayName, clientsPageRoute),
+ MenuItem(controlPageDisplayName, controlPageRoute),
  MenuItem(authenticationPageDisplayName, authenticationPageRoute),
 ];
