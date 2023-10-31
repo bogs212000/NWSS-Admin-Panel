@@ -6,10 +6,19 @@ import 'package:nwss_admin/constants/style.dart';
 import 'package:nwss_admin/routing/routes.dart';
 import 'package:nwss_admin/widgets/custom_text.dart';
 
-class AuthenticationPage extends StatelessWidget {
+class AuthenticationPage extends StatefulWidget {
   AuthenticationPage({Key? key}) : super(key: key);
+
+  @override
+  State<AuthenticationPage> createState() => _AuthenticationPageState();
+}
+
+class _AuthenticationPageState extends State<AuthenticationPage> {
   final TextEditingController emailController = TextEditingController();
+
   final TextEditingController passwordController = TextEditingController();
+
+  bool isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +36,9 @@ class AuthenticationPage extends StatelessWidget {
                   //   padding: const EdgeInsets.only(right: 12),
                   //   child: Image.asset("assets/icons/logo.png"),
                   // ),
-                  Expanded(child: Container()),
+                  Expanded(
+                    child: Container(),
+                  ),
                 ],
               ),
               const SizedBox(
@@ -35,9 +46,11 @@ class AuthenticationPage extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Text("Login",
-                      style: GoogleFonts.roboto(
-                          fontSize: 30, fontWeight: FontWeight.bold)),
+                  Text(
+                    "Login",
+                    style: GoogleFonts.roboto(
+                        fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
               const SizedBox(
@@ -57,22 +70,39 @@ class AuthenticationPage extends StatelessWidget {
               TextField(
                 controller: emailController,
                 decoration: InputDecoration(
-                    labelText: "Email",
-                    hintText: "abc@domain.com",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20))),
+                  labelText: "Email",
+                  hintText: "abc@gmail.com",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 15,
               ),
               TextField(
                 controller: passwordController,
-                obscureText: true,
+                obscureText: !isPasswordVisible,
+
                 decoration: InputDecoration(
-                    labelText: "Password",
-                    hintText: "123",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20))),
+                  labelText: "Password",
+                  hintText: "123456",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                      color: Colors.grey,
+                    ),
+                    onPressed: () {
+                      // Toggle password visibility
+                      setState(() {
+                        isPasswordVisible = !isPasswordVisible;
+                      });
+                    },
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 15,
@@ -95,18 +125,19 @@ class AuthenticationPage extends StatelessWidget {
               ),
               InkWell(
                 onTap: () async {
+
                   try {
                     await fbAuth.signInWithEmailAndPassword(
                       email: emailController.text.trim().toString(),
                       password: passwordController.text.trim().toString(),
                     );
-
-                  } catch (e) {print("haha");}
-
+                  } catch (e) {
+                    print("haha");
+                  }
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                      color: active, borderRadius: BorderRadius.circular(20)),
+                      color: active, borderRadius: BorderRadius.circular(20),),
                   alignment: Alignment.center,
                   width: double.maxFinite,
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -120,12 +151,16 @@ class AuthenticationPage extends StatelessWidget {
                 height: 15,
               ),
               RichText(
-                  text: const TextSpan(children: [
-                TextSpan(text: "Do not have admin credentials? "),
-                TextSpan(
-                    text: "Request Credentials! ",
-                    style: TextStyle(color: active))
-              ]))
+                text: const TextSpan(
+                  children: [
+                    TextSpan(text: "Do not have admin credentials? "),
+                    TextSpan(
+                      text: "Request Credentials! ",
+                      style: TextStyle(color: active),
+                    )
+                  ],
+                ),
+              )
             ],
           ),
         ),

@@ -1,61 +1,77 @@
-/// Bar chart example
 import 'package:charts_flutter_new/flutter.dart' as charts;
 import 'package:flutter/material.dart';
-import 'package:nwss_admin/constants/style.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class SimpleBarChart extends StatelessWidget {
-  final List<charts.Series<dynamic, String>> seriesList;
-  final bool? animate;
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  const SimpleBarChart(this.seriesList, {super.key, this.animate});
+class SimpleBarChart extends StatefulWidget {
+  const SimpleBarChart({Key? key}) : super(key: key);
 
-  /// Creates a [BarChart] with sample data and no transition.
-  factory SimpleBarChart.withSampleData() {
-    return SimpleBarChart(
-      _createSampleData(),
-      // Disable animations for image tests.
-      animate: true,
-    
+  @override
+  _SimpleBarChartState createState() => _SimpleBarChartState();
+}
 
-    );
+class _SimpleBarChartState extends State<SimpleBarChart> {
+  late Future<List<ChartBarDataItem>> _chartData;
+
+  @override
+  void initState() {
+    super.initState();
+    _chartData = fetchDataFromFirebase();
+  }
+
+  Future<List<ChartBarDataItem>> fetchDataFromFirebase() async {
+    QuerySnapshot querySnapshot = await _firestore.collection('Consumed').get();
+
+    return querySnapshot.docs.map((doc) {
+      final Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+
+      if (data != null && data.containsKey('month') && data.containsKey('value')) {
+        return ChartBarDataItem(data['month'], data['value']);
+      }
+
+      // Return a default value or handle appropriately in case of missing or incorrect data
+      return ChartBarDataItem('N/A', 0);
+    }).toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    return charts.BarChart(
-      seriesList,
-      animate: animate,
+    return FutureBuilder<List<ChartBarDataItem>>(
+      future: _chartData,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (snapshot.hasData) {
+          final List<ChartBarDataItem> data = snapshot.data!;
+
+          final List<charts.Series<ChartBarDataItem, String>> seriesList = [
+            charts.Series<ChartBarDataItem, String>(
+              id: 'Consumed',
+              colorFn: (_, __) => charts.ColorUtil.fromDartColor(Colors.blue),
+              domainFn: (ChartBarDataItem sales, _) => sales.year,
+              measureFn: (ChartBarDataItem sales, _) => sales.consumed,
+              data: data,
+            ),
+          ];
+
+          return charts.BarChart(
+            seriesList,
+            animate: true,
+          );
+        } else {
+          return Center(child: Text('No data available.'));
+        }
+      },
     );
-  }
-
-  /// Create one series with sample hard coded data.
-  static List<charts.Series<OrdinalSales, String>> _createSampleData() {
-    final data = [
-      OrdinalSales('Jan', 55),
-      OrdinalSales('Feb', 25),
-      OrdinalSales('Mar', 200),
-      OrdinalSales('Apr', 75),
-      OrdinalSales('May', 15),
-      OrdinalSales('Jun', 85),
-      OrdinalSales('Jul', 45),
-    ];
-
-    return [
-      charts.Series<OrdinalSales, String>(
-        id: 'Sales',
-        colorFn: (_, __) => charts.ColorUtil.fromDartColor(active),
-        domainFn: (OrdinalSales sales, _) => sales.year,
-        measureFn: (OrdinalSales sales, _) => sales.sales,
-        data: data,
-      )
-    ];
   }
 }
 
-/// Sample ordinal data type.
-class OrdinalSales {
+class ChartBarDataItem {
   final String year;
-  final int sales;
+  final int consumed;
 
-  OrdinalSales(this.year, this.sales);
+  ChartBarDataItem(this.year, this.consumed);
 }

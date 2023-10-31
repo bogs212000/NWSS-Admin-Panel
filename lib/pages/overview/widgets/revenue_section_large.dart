@@ -4,6 +4,8 @@ import 'package:nwss_admin/pages/overview/widgets/bar_chart.dart';
 import 'package:nwss_admin/pages/overview/widgets/revenue_info.dart';
 import 'package:nwss_admin/widgets/custom_text.dart';
 
+import 'bar_chart.dart';
+
 class RevenueSectionLarge extends StatelessWidget {
   const RevenueSectionLarge({super.key});
 
@@ -39,7 +41,7 @@ class RevenueSectionLarge extends StatelessWidget {
                           SizedBox(
                               width: 600,
                               height: 200,
-                              child: SimpleBarChart.withSampleData()),
+                              child: SimpleBarChart()),
                         ],
                       ),
                     ),

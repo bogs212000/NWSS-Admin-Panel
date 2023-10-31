@@ -15,48 +15,13 @@ class SideMenu extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
 
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Colors.blue.shade500,
-            Colors.green.shade300
-          ], // Define your gradient colors here
-        ),
+      decoration: BoxDecoration(color: Colors.blue
       ),
       child: ListView(
         children: [
-          if (ResponsiveWidget.isSmallScreen(context))
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const SizedBox(
-                  height: 40,
-                ),
-                Row(
-                  children: [
-                    SizedBox(width: width / 48),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(right: 12),
-                    //   child: Image.asset("assets/logo.png"),
-                    // ),
-                    const Flexible(
-                      child: CustomText(
-                        text: "Dash",
-                        size: 20,
-                        weight: FontWeight.bold,
-                        color: active,
-                      ),
-                    ),
-                    SizedBox(width: width / 48),
-                  ],
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-              ],
-            ),
+          // Your other UI elements...
+
+          // Your existing Divider and menu items
           Divider(
             color: lightGrey.withOpacity(.5),
           ),
@@ -64,24 +29,52 @@ class SideMenu extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: sideMenuItemRoutes
                 .map((item) => SideMenuItem(
-                    itemName: item.name,
-                    onTap: () {
-                      if (item.route == authenticationPageRoute) {
-
-                        fbAuth.signOut();
-                      }
-                      if (!menuController.isActive(item.name)) {
-                        menuController.changeActiveItemTo(item.name);
-                        if (ResponsiveWidget.isSmallScreen(context)) {
-                          Get.back();
-                        }
-                        navigationController.navigateTo(item.route);
-                      }
-                    }))
+              itemName: item.name,
+              onTap: () {
+                if (item.route == authenticationPageRoute) {
+                  _logOut(context); // Show the dialog on logout item click
+                } else {
+                  if (!menuController.isActive(item.name)) {
+                    menuController.changeActiveItemTo(item.name);
+                    if (ResponsiveWidget.isSmallScreen(context)) {
+                      Get.back();
+                    }
+                    navigationController.navigateTo(item.route);
+                  }
+                }
+              },
+            ))
                 .toList(),
           )
         ],
       ),
+    );
+  }
+
+  void _logOut(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Log Out'),
+          content: Text('Are you sure you want to log out?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Get.back(); // Close the dialog
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+              fbAuth.signOut();
+                Get.back();
+              },
+              child: Text('Logout'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

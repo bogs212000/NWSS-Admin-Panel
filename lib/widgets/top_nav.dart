@@ -1,9 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nwss_admin/constants/style.dart';
 import 'package:nwss_admin/helpers/reponsiveness.dart';
 
 import 'custom_text.dart';
-
+final User? currentUser = FirebaseAuth.instance.currentUser;
 AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
     AppBar(
       leading: !ResponsiveWidget.isSmallScreen(context)
@@ -36,7 +37,7 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
           Expanded(child: Container()),
           IconButton(
               icon: const Icon(
-                Icons.settings,
+                Icons.light_mode,
                 color: dark,
               ),
               onPressed: () {}),
@@ -87,11 +88,42 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
                   color: Colors.white, borderRadius: BorderRadius.circular(30)),
               padding: const EdgeInsets.all(2),
               margin: const EdgeInsets.all(2),
-              child: const CircleAvatar(
-                backgroundColor: light,
-                child: Icon(
-                  Icons.person_outline,
-                  color: dark,
+              child: GestureDetector(
+                onTap: (){
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('User Profile'),
+                        content: currentUser != null
+                            ? Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Name: ${currentUser?.displayName ?? "N/A"}'),
+                            Text('Email: ${currentUser?.email ?? "N/A"}'),
+                            // Add more user details as needed
+                          ],
+                        )
+                            : const Text('User not found'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Close'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                child: const CircleAvatar(
+                  backgroundColor: light,
+                  child: Icon(
+                    Icons.person_outline,
+                    color: dark,
+                  ),
                 ),
               ),
             ),

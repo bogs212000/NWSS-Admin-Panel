@@ -24,10 +24,9 @@ class Wrapper extends StatelessWidget {
           return Center(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-
+              children: const [
                 SizedBox(width: 5),
-                const Text(
+                Text(
                   "Loading please wait...",
                   style: TextStyle(
                       fontSize: 12.0,
@@ -42,10 +41,9 @@ class Wrapper extends StatelessWidget {
           return Center(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-
+              children: const [
                 SizedBox(width: 5),
-                const Text(
+                Text(
                   "Loading please wait...",
                   style: TextStyle(
                       fontSize: 12.0,
@@ -74,12 +72,9 @@ class Wrapper extends StatelessWidget {
         } else if (userData.hasData) {
           return Builder(
             builder: (
-                context,
-                ) {
-              if ((userData.data!['role'] == "admin")
-              // &
-              // (user != null && !user.emailVerified)
-              ) {
+              context,
+            ) {
+              if (userData.data!['role'] == 'admin') {
                 return SiteLayout();
               } else {
                 return AuthenticationPage();

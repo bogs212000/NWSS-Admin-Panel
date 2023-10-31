@@ -26,7 +26,7 @@ class MenuController extends GetxController {
       case overviewPageDisplayName:
         return _customIcon(Icons.trending_up, itemName);
       case driversPageDisplayName:
-        return _customIcon(Icons.drive_eta, itemName);
+        return _customIcon(Icons.directions_bike, itemName);
       case clientsPageDisplayName:
         return _customIcon(Icons.people_alt_outlined, itemName);
       case controlPageDisplayName:

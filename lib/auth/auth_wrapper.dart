@@ -20,7 +20,7 @@ class AuthWrapper extends StatelessWidget {
             );
           } else if (snapshot.hasError) {
             return Center(
-              child: Text("Somthing went wrong."),
+              child: Text("Something went wrong."),
             );
           } else if (snapshot.hasData) {
             return Wrapper();

@@ -44,7 +44,7 @@ class InfoCard extends StatelessWidget {
               RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(children: [
-                    TextSpan(text: "$title\n", style: TextStyle(fontSize: 16, color: isActive ? active : lightGrey)),
+                    TextSpan(text: "$title\n", style: TextStyle(fontSize: 16, color: isActive ? active : dark)),
                     TextSpan(text: value, style: TextStyle(fontSize: 40, color: isActive ? active : dark)),
                   ])),
               Expanded(child: Container()),

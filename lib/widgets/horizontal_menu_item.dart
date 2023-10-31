@@ -22,7 +22,7 @@ class HorizontalMenuItem extends StatelessWidget {
                     menuController.onHover(itemName) : menuController.onHover("not hovering");
                   },
                   child: Obx(() => Container(
-                    color: menuController.isHovering(itemName) ? lightGrey.withOpacity(.1) : Colors.transparent,
+                    color: menuController.isHovering(itemName) ? dark.withOpacity(.1) : Colors.transparent,
                     child: Row(
                       children: [
                         Visibility(
@@ -43,7 +43,7 @@ class HorizontalMenuItem extends StatelessWidget {
                           child: menuController.returnIconFor(itemName),
                         ),
                         if(!menuController.isActive(itemName))
-                        Flexible(child: CustomText(text: itemName , color: menuController.isHovering(itemName) ? dark : lightGrey,))
+                        Flexible(child: CustomText(text: itemName , color: menuController.isHovering(itemName) ? dark : dark,))
                         else
                         Flexible(child: CustomText(text: itemName , color:  dark , size: 18, weight: FontWeight.bold,))
 

@@ -32,7 +32,7 @@ class RevenueSectionSmall extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           const CustomText(
-                            text: "Revenue Chart",
+                            text: "Consumed ",
                             size: 20,
                             weight: FontWeight.bold,
                             color: lightGrey,
@@ -40,7 +40,7 @@ class RevenueSectionSmall extends StatelessWidget {
                           SizedBox(
                               width: 600,
                               height: 200,
-                              child: SimpleBarChart.withSampleData()),
+                              child: SimpleBarChart()),
                         ],
                       ),
                     ),

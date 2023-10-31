@@ -39,7 +39,7 @@ class OverviewPage extends StatelessWidget {
               else
                 const OverviewCardsSmallScreen(),
               if (!ResponsiveWidget.isSmallScreen(context)) const RevenueSectionLarge() else const RevenueSectionSmall(),
-              const AvailableDriversTable(),
+              AvailableDriversTable(),
             ],
           ),
         ),
