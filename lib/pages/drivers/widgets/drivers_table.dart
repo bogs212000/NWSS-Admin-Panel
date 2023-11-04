@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:nwss_admin/constants/style.dart';
 import 'package:nwss_admin/widgets/custom_text.dart';
 
@@ -42,7 +43,13 @@ class DriversTable extends StatelessWidget {
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else if (snapshot.data?.isEmpty ?? true) {
-              return const Center(child: Text('No riders yet.'));
+              return Center(child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Lottie.asset('assets/lottie/animation_loj8u1uc.json', height: 200, width: 200),
+                  Text('No data yet.'),
+                ],
+              ));
             } else {
               return DataTable2(
                 columnSpacing: 12,

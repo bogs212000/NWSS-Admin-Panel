@@ -8,13 +8,14 @@ import 'package:nwss_admin/widgets/custom_text.dart';
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 /// Example without datasource
-class Clientstable extends StatelessWidget {
-  const Clientstable({super.key});
+class TransactionsTable extends StatelessWidget {
+  const TransactionsTable({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Future<List<DocumentSnapshot>> firebaseData() async {
-      QuerySnapshot querySnapshot = await _firestore.collection('user').get();
+    Future<List<DocumentSnapshot>> firebaseDataTransactions() async {
+      QuerySnapshot querySnapshot =
+      await _firestore.collection('Transaction').get();
       return querySnapshot.docs;
     }
 
@@ -35,7 +36,7 @@ class Clientstable extends StatelessWidget {
       child: SizedBox(
         height: (56 * 7) + 40,
         child: FutureBuilder<List<DocumentSnapshot>>(
-          future: firebaseData(),
+          future: firebaseDataTransactions(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Text('Loading please wait...');
@@ -43,46 +44,69 @@ class Clientstable extends StatelessWidget {
               return Text('Error: ${snapshot.error}');
             } else if (snapshot.data?.isEmpty ?? true) {
               return Center(child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Lottie.asset('assets/lottie/animation_empty.json', height: 100, width: 100),
+                  Lottie.asset('assets/lottie/animation_loj8u1uc.json', height: 200, width: 200),
                   Text('No data yet.'),
                 ],
               ));
             } else {
               return DataTable2(
-                columnSpacing: 2,
-                dataRowHeight: 30,
-                headingRowHeight: 30,
-                horizontalMargin: 5,
+                columnSpacing: 12,
+                dataRowHeight: 56,
+                headingRowHeight: 40,
+                horizontalMargin: 12,
                 minWidth: 600,
                 columns: const [
                   DataColumn2(
-                    label: Text("Name", style: TextStyle(fontWeight: FontWeight.bold),),
+                    label: Text("No."),
                     size: ColumnSize.L,
                   ),
                   DataColumn(
-                    label: Text('Balance', style: TextStyle(fontWeight: FontWeight.bold),),
+                    label: Text('Date'),
                   ),
                   DataColumn(
-                    label: Text('Address', style: TextStyle(fontWeight: FontWeight.bold),),
+                    label: Text('Payments'),
                   ),
                   DataColumn(
-                    label: Text('Contact No.', style: TextStyle(fontWeight: FontWeight.bold),),
-                  ),
-                  DataColumn(
-                    label: Text('Water Consumption', style: TextStyle(fontWeight: FontWeight.bold),),
+                    label: Text('Action'),
                   ),
                 ],
                 rows: snapshot.data!.map((doc) {
                   Map<String, dynamic> data =
-                      doc.data() as Map<String, dynamic>;
+                  doc.data() as Map<String, dynamic>;
                   return DataRow(
                     cells: [
                       DataCell(CustomText(text: data['name'])),
-                      DataCell(CustomText(text: data['balance_to_pay'])),
                       DataCell(CustomText(text: data['address'])),
-                      DataCell(CustomText(text: data['contactNo'])),
-                      DataCell(CustomText(text: data['water_usage'])),
+                      DataCell(
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.money, color: Colors.blue, size: 18),
+                            SizedBox(width: 5),
+                            CustomText(
+                                text: data['payments_amount'].toString()),
+                          ],
+                        ),
+                      ),
+                      DataCell(
+                        Container(
+                          decoration: BoxDecoration(
+                            color: light,
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                                color: Colors.green.shade500, width: .5),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 6),
+                          child: CustomText(
+                            text: data['action'],
+                            color: Colors.green.withOpacity(.7),
+                            weight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                     ],
                   );
                 }).toList(),

@@ -2,9 +2,14 @@
 class Assets {
   Assets._();
 
-  static const String assetsLogo = 'assets/logo.png';
-  static const String iconsLogo = 'assets/logo.png';
+  static const String iconsAnalyticsIcon = 'assets/icons/analytics_icon.png';
+  static const String iconsIcons8Setting512 = 'assets/icons/icons8-setting-512.png';
+  static const String iconsLogIcon = 'assets/icons/log_icon.png';
+  static const String iconsLogo = 'assets/icons/logo.png';
+  static const String iconsWaterDrop = 'assets/icons/water_drop.png';
   static const String imagesError = 'assets/images/error.png';
   static const String imagesProfile = 'assets/images/profile.jpg';
+  static const String lottieAnimationLoading = 'assets/lottie/animation_loading.json';
+  static const String lottieAnimationLoj8u1uc = 'assets/lottie/animation_loj8u1uc.json';
 
 }

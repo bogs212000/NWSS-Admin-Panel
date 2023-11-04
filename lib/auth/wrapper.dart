@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:nwss_admin/layout.dart';
 import 'package:nwss_admin/pages/authentication/authentication.dart';
 
@@ -22,37 +23,11 @@ class Wrapper extends StatelessWidget {
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> userData) {
         if (!userData.hasData) {
           return Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                SizedBox(width: 5),
-                Text(
-                  "Loading please wait...",
-                  style: TextStyle(
-                      fontSize: 12.0,
-                      color: Colors.blueGrey,
-                      letterSpacing: 1.0,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
+            child: Lottie.asset('assets/lottie/animation_loading.json', width: 100, height: 100),
           );
         } else if (userData.connectionState == ConnectionState.waiting) {
           return Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                SizedBox(width: 5),
-                Text(
-                  "Loading please wait...",
-                  style: TextStyle(
-                      fontSize: 12.0,
-                      color: Colors.blueGrey,
-                      letterSpacing: 1.0,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
+            child: Lottie.asset('assets/lottie/animation_loading.json', width: 100, height: 100),
           );
         } else if (userData.hasError) {
           return Row(

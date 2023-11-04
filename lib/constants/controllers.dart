@@ -8,3 +8,5 @@ final fbAuth = FirebaseAuth.instance;
 String? email = FirebaseAuth.instance.currentUser?.email.toString();
 MenuController menuController = MenuController.instance;
 NavigationController navigationController = NavigationController.instance;
+bool? releaseMode;
+bool? maintenanceMode;

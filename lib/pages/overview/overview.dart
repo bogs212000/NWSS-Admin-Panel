@@ -9,10 +9,23 @@ import 'package:nwss_admin/pages/overview/widgets/overview_cards_small.dart';
 import 'package:nwss_admin/pages/overview/widgets/revenue_section_large.dart';
 import 'package:nwss_admin/widgets/custom_text.dart';
 
+import '../../functions/fetch.release.dart';
 import 'widgets/revenue_section_small.dart';
 
-class OverviewPage extends StatelessWidget {
-  const OverviewPage({super.key});
+class OverviewPage extends StatefulWidget {
+  OverviewPage({super.key});
+
+  @override
+  State<OverviewPage> createState() => _OverviewPageState();
+}
+
+class _OverviewPageState extends State<OverviewPage> {
+  @override
+  void initState() {
+    super.initState();
+    fetchRelease(setState);
+    fetchMaintenance(setState);
+  }
 
   @override
   Widget build(BuildContext context) {

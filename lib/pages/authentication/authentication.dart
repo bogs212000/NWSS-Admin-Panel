@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nwss_admin/constants/controllers.dart';
 import 'package:nwss_admin/constants/style.dart';
-import 'package:nwss_admin/routing/routes.dart';
 import 'package:nwss_admin/widgets/custom_text.dart';
 
 class AuthenticationPage extends StatefulWidget {
