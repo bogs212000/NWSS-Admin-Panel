@@ -9,6 +9,7 @@ class Assets {
   static const String iconsWaterDrop = 'assets/icons/water_drop.png';
   static const String imagesError = 'assets/images/error.png';
   static const String imagesProfile = 'assets/images/profile.jpg';
+  static const String lottieAnimationAnimeGirl = 'assets/lottie/animation_anime_girl.json';
   static const String lottieAnimationLoading = 'assets/lottie/animation_loading.json';
   static const String lottieAnimationLoj8u1uc = 'assets/lottie/animation_loj8u1uc.json';
 

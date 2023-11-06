@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +10,8 @@ import 'package:nwss_admin/widgets/custom_text.dart';
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 /// Example without datasource
-class Clientstable extends StatelessWidget {
-  const Clientstable({super.key});
+class ClientsTable extends StatelessWidget {
+  const ClientsTable({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,13 +40,18 @@ class Clientstable extends StatelessWidget {
           future: firebaseData(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Text('Loading please wait...');
+              return Center(
+                child: Lottie.asset('assets/lottie/animation_loading.json',
+                    width: 100, height: 100),
+              );
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else if (snapshot.data?.isEmpty ?? true) {
-              return Center(child: Column(
+              return Center(
+                  child: Column(
                 children: [
-                  Lottie.asset('assets/lottie/animation_empty.json', height: 100, width: 100),
+                  Lottie.asset('assets/lottie/animation_empty.json',
+                      height: 100, width: 100),
                   Text('No data yet.'),
                 ],
               ));
@@ -57,20 +64,35 @@ class Clientstable extends StatelessWidget {
                 minWidth: 600,
                 columns: const [
                   DataColumn2(
-                    label: Text("Name", style: TextStyle(fontWeight: FontWeight.bold),),
+                    label: Text(
+                      "Name",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     size: ColumnSize.L,
                   ),
                   DataColumn(
-                    label: Text('Balance', style: TextStyle(fontWeight: FontWeight.bold),),
+                    label: Text(
+                      'Balance',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                   DataColumn(
-                    label: Text('Address', style: TextStyle(fontWeight: FontWeight.bold),),
+                    label: Text(
+                      'Address',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                   DataColumn(
-                    label: Text('Contact No.', style: TextStyle(fontWeight: FontWeight.bold),),
+                    label: Text(
+                      'Contact No.',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                   DataColumn(
-                    label: Text('Water Consumption', style: TextStyle(fontWeight: FontWeight.bold),),
+                    label: Text(
+                      'Water Consumption',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
                 rows: snapshot.data!.map((doc) {

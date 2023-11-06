@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_constructors
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
@@ -51,18 +53,6 @@ class _AvailableDriversTableState extends State<AvailableDriversTable> {
                 weight: FontWeight.bold,
               ),
               Spacer(),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    showAllData = !showAllData;
-                  });
-                },
-                child: CustomText(
-                  text: showAllData ? "Show less" : "Show all",
-                  color: Colors.blue,
-                  weight: FontWeight.bold,
-                ),
-              ),
             ],
           ),
           SizedBox(
@@ -71,7 +61,9 @@ class _AvailableDriversTableState extends State<AvailableDriversTable> {
               future: firebaseData(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Text('Loading please wait...');
+                  return Center(
+                    child: Lottie.asset('assets/lottie/animation_loading.json', width: 100, height: 100),
+                  );
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else if (snapshot.data?.isEmpty ?? true) {

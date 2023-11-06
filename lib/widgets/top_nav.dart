@@ -11,10 +11,10 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
           ? Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 16),
+                  padding: const EdgeInsets.only(left: 20),
                   child: Image.asset(
                     "assets/icons/analytics_icon.png",
-                    width: 30, color: Colors.white,
+                    width: 30, color: dark,
                   ),
                 ),
               ],

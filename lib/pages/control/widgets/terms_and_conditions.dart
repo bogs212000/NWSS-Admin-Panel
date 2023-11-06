@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nwss_admin/constants/controllers.dart';
@@ -42,7 +43,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
             children: [
               SizedBox(
                 height: 40,
-                width: ResponsiveWidget.isSmallScreen(context) ? 100 : 300,
+                width: ResponsiveWidget.isSmallScreen(context) ? 100 : 250,
                 child: TextField(
                   controller: termsAndConditionsController,
                   decoration: InputDecoration(

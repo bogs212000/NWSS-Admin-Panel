@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, unnecessary_import
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -31,8 +33,9 @@ class _UserGuideState extends State<UserGuide> {
             children: [
               SizedBox(
                 height: 40,
-                width: ResponsiveWidget.isSmallScreen(context) ? 100 : 300,
+                width: ResponsiveWidget.isSmallScreen(context) ? 100 : 250,
                 child: TextField(
+                  controller: guideController,
                   decoration: InputDecoration(
                     labelText: "Link",
                     hintText: "https://.....",
@@ -59,11 +62,12 @@ class _UserGuideState extends State<UserGuide> {
                         try {
                           await fbStore
                               .collection('App Settings')
-                              .doc('Guide')
+                              .doc('Users Guide')
                               .update({
                             'Link': guideController.text.toString().trim(),
                           });
                           guideController.clear();
+                          _showDialog();
                         } catch (e) {
                           await showDialog(
                             context: context,
@@ -107,6 +111,31 @@ class _UserGuideState extends State<UserGuide> {
           ),
         ],
       ),
+    );
+  }
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Saved'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Saved Successfully!'),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

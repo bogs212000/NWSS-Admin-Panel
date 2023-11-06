@@ -9,6 +9,9 @@ const driversPageRoute = "/drivers";
 const clientsPageDisplayName = "Clients";
 const clientsPageRoute = "/clients";
 
+const notificationsPageDisplayName = "Notifications";
+const notificationsPageRoute = "/notifications";
+
 const controlPageDisplayName = "Control";
 const controlPageRoute = "/control";
 
@@ -22,12 +25,11 @@ class MenuItem {
   MenuItem(this.name, this.route);
 }
 
-
-
 List<MenuItem> sideMenuItemRoutes = [
- MenuItem(overviewPageDisplayName, overviewPageRoute),
- MenuItem(driversPageDisplayName, driversPageRoute),
- MenuItem(clientsPageDisplayName, clientsPageRoute),
- MenuItem(controlPageDisplayName, controlPageRoute),
- MenuItem(authenticationPageDisplayName, authenticationPageRoute),
+  MenuItem(overviewPageDisplayName, overviewPageRoute),
+  MenuItem(driversPageDisplayName, driversPageRoute),
+  MenuItem(clientsPageDisplayName, clientsPageRoute),
+  MenuItem(notificationsPageDisplayName, notificationsPageRoute),
+  MenuItem(controlPageDisplayName, controlPageRoute),
+  MenuItem(authenticationPageDisplayName, authenticationPageRoute),
 ];

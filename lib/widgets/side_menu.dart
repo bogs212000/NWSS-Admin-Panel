@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nwss_admin/constants/controllers.dart';
@@ -15,15 +17,12 @@ class SideMenu extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
 
     return Container(
-      decoration: BoxDecoration(color: Colors.blue.shade500
+      decoration: BoxDecoration(color: Colors.white
       ),
       child: ListView(
         children: [
-          // Your other UI elements...
-
-          // Your existing Divider and menu items
           Divider(
-            color: lightGrey.withOpacity(.5),
+            color: dark,
           ),
           Column(
             mainAxisSize: MainAxisSize.min,

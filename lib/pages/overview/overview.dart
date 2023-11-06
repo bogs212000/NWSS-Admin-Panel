@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors_in_immutables
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nwss_admin/constants/controllers.dart';
@@ -9,7 +11,7 @@ import 'package:nwss_admin/pages/overview/widgets/overview_cards_small.dart';
 import 'package:nwss_admin/pages/overview/widgets/revenue_section_large.dart';
 import 'package:nwss_admin/widgets/custom_text.dart';
 
-import '../../functions/fetch.release.dart';
+import '../../functions/fetch.dart';
 import 'widgets/revenue_section_small.dart';
 
 class OverviewPage extends StatefulWidget {
@@ -25,6 +27,9 @@ class _OverviewPageState extends State<OverviewPage> {
     super.initState();
     fetchRelease(setState);
     fetchMaintenance(setState);
+    fetchControl(setState);
+    fetchTermsConditions(setState);
+    fetchGuide(setState);
   }
 
   @override

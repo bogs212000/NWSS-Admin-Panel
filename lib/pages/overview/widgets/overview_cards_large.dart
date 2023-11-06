@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, library_private_types_in_public_api
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nwss_admin/pages/overview/widgets/info_card.dart';

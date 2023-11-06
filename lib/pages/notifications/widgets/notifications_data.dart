@@ -10,12 +10,12 @@ import 'package:nwss_admin/widgets/custom_text.dart';
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 /// Example without datasource
-class TransactionsTable extends StatelessWidget {
-  const TransactionsTable({super.key});
+class NotificationsTable extends StatelessWidget {
+  const NotificationsTable({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Future<List<DocumentSnapshot>> firebaseDataTransactions() async {
+    Future<List<DocumentSnapshot>> firebaseData() async {
       QuerySnapshot querySnapshot =
       await _firestore.collection('Transaction').get();
       return querySnapshot.docs;
@@ -38,20 +38,25 @@ class TransactionsTable extends StatelessWidget {
       child: SizedBox(
         height: (56 * 7) + 40,
         child: FutureBuilder<List<DocumentSnapshot>>(
-          future: firebaseDataTransactions(),
+          future: firebaseData(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Text('Loading please wait...');
+              return Center(
+                child: Lottie.asset('assets/lottie/animation_loading.json',
+                    width: 100, height: 100),
+              );
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else if (snapshot.data?.isEmpty ?? true) {
-              return Center(child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Lottie.asset('assets/lottie/animation_loj8u1uc.json', height: 200, width: 200),
-                  Text('No data yet.'),
-                ],
-              ));
+              return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Lottie.asset('assets/lottie/animation_loj8u1uc.json',
+                          height: 200, width: 200),
+                      Text('No data yet.'),
+                    ],
+                  ));
             } else {
               return DataTable2(
                 columnSpacing: 12,
@@ -61,11 +66,11 @@ class TransactionsTable extends StatelessWidget {
                 minWidth: 600,
                 columns: const [
                   DataColumn2(
-                    label: Text("No."),
+                    label: Text("Name"),
                     size: ColumnSize.L,
                   ),
                   DataColumn(
-                    label: Text('Date'),
+                    label: Text('Address'),
                   ),
                   DataColumn(
                     label: Text('Payments'),

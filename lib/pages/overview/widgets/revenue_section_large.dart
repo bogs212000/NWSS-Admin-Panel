@@ -1,10 +1,11 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
 import 'package:nwss_admin/constants/style.dart';
 import 'package:nwss_admin/pages/overview/widgets/bar_chart.dart';
 import 'package:nwss_admin/pages/overview/widgets/revenue_info.dart';
 import 'package:nwss_admin/widgets/custom_text.dart';
 
-import 'bar_chart.dart';
 
 class RevenueSectionLarge extends StatelessWidget {
   const RevenueSectionLarge({super.key});

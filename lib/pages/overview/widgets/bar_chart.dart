@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:charts_flutter_new/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

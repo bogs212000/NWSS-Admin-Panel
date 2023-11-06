@@ -1,28 +1,27 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nwss_admin/constants/controllers.dart'; // Make sure you import your controllers correctly
 
-class ReleaseMode extends StatefulWidget {
-  ReleaseMode({Key? key}) : super(key: key);
+class ForceUpdate extends StatefulWidget {
+  ForceUpdate({Key? key}) : super(key: key);
 
   @override
-  State<ReleaseMode> createState() => _ReleaseModeState();
+  State<ForceUpdate> createState() => _ForceUpdateState();
 }
 
-class _ReleaseModeState extends State<ReleaseMode> {
+class _ForceUpdateState extends State<ForceUpdate> {
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Row(
         children: [
-          Text('Release mode '),
+          Text('Force Update '),
           Checkbox(
-            value: releaseMode, // Make sure 'value' is a boolean variable
+            value: forceUpdate, // Make sure 'value' is a boolean variable
             onChanged: (newValue) {
               setState(() {
-                updateReleaseMode(newValue!);
+                updateForceUpdate(newValue!);
               });
             }, // Make sure 'onChanged' is a function to handle checkbox changes
           ),
@@ -31,11 +30,11 @@ class _ReleaseModeState extends State<ReleaseMode> {
     );
   }
 
-  Future<void> updateReleaseMode(bool newValue) async {
-    releaseMode = newValue;
+  Future<void> updateForceUpdate(bool newValue) async {
+    forceUpdate = newValue;
     try {
-      await fbStore.collection('App Settings').doc('release').update({
-        'releaseMode': releaseMode,
+      await fbStore.collection('App Settings').doc('Control').update({
+        'force update': forceUpdate,
       });
       _showDialogSuccess();
     } catch (e) {

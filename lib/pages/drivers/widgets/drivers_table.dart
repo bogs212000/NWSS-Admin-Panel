@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
@@ -39,14 +41,19 @@ class DriversTable extends StatelessWidget {
           future: firebaseData(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Text('Loading please wait...');
+              return Center(
+                child: Lottie.asset('assets/lottie/animation_loading.json',
+                    width: 100, height: 100),
+              );
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else if (snapshot.data?.isEmpty ?? true) {
-              return Center(child: Column(
+              return Center(
+                  child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Lottie.asset('assets/lottie/animation_loj8u1uc.json', height: 200, width: 200),
+                  Lottie.asset('assets/lottie/animation_loj8u1uc.json',
+                      height: 200, width: 200),
                   Text('No data yet.'),
                 ],
               ));

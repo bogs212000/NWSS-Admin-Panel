@@ -29,21 +29,21 @@ class MenuController extends GetxController {
         return _customIcon(Icons.directions_bike, itemName);
       case clientsPageDisplayName:
         return _customIcon(Icons.people_alt_outlined, itemName);
+      case notificationsPageDisplayName:
+        return _customIcon(Icons.notifications_active, itemName);
       case controlPageDisplayName:
         return _customIcon(Icons.keyboard_command_key, itemName);
-      case authenticationPageDisplayName:
-        return _customIcon(Icons.exit_to_app, itemName);
       default:
         return _customIcon(Icons.exit_to_app, itemName);
     }
   }
 
   Widget _customIcon(IconData icon, String itemName) {
-    if (isActive(itemName)) return Icon(icon, size: 30, color: Colors.white);
+    if (isActive(itemName)) return Icon(icon, size: 30, color: dark);
 
     return Icon(
       icon,
-      color: isHovering(itemName) ? Colors.white : dark,
+      color: isHovering(itemName) ? dark : dark,
     );
   }
 }
