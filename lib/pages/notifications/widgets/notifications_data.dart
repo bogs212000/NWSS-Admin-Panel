@@ -10,14 +10,21 @@ import 'package:nwss_admin/widgets/custom_text.dart';
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 /// Example without datasource
-class NotificationsTable extends StatelessWidget {
+class NotificationsTable extends StatefulWidget {
   const NotificationsTable({super.key});
 
   @override
+  State<NotificationsTable> createState() => _NotificationsTableState();
+}
+
+class _NotificationsTableState extends State<NotificationsTable> {
+  @override
   Widget build(BuildContext context) {
     Future<List<DocumentSnapshot>> firebaseData() async {
-      QuerySnapshot querySnapshot =
-      await _firestore.collection('Transaction').get();
+      QuerySnapshot querySnapshot = await _firestore
+          .collection('NewsUpdate')
+          .orderBy('createdAt', descending: true)
+          .get();
       return querySnapshot.docs;
     }
 
@@ -50,70 +57,98 @@ class NotificationsTable extends StatelessWidget {
             } else if (snapshot.data?.isEmpty ?? true) {
               return Center(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Lottie.asset('assets/lottie/animation_loj8u1uc.json',
-                          height: 200, width: 200),
-                      Text('No data yet.'),
-                    ],
-                  ));
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Lottie.asset('assets/lottie/animation_loj8u1uc.json',
+                      height: 200, width: 200),
+                  Text('No data yet.'),
+                ],
+              ));
             } else {
               return DataTable2(
-                columnSpacing: 12,
-                dataRowHeight: 56,
-                headingRowHeight: 40,
+                columnSpacing: 5,
+                dataRowHeight: 40,
+                headingRowHeight: 30,
                 horizontalMargin: 12,
                 minWidth: 600,
                 columns: const [
                   DataColumn2(
-                    label: Text("Name"),
+                    label: Text("Title",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                     size: ColumnSize.L,
                   ),
                   DataColumn(
-                    label: Text('Address'),
+                      label: Text(
+                    'Descriptions',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )),
+                  DataColumn(
+                      label: Text(
+                    'To',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )),
+                  DataColumn(
+                    label: Text(
+                      'Date',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                   DataColumn(
-                    label: Text('Payments'),
-                  ),
-                  DataColumn(
-                    label: Text('Action'),
+                    label: Text(''),
                   ),
                 ],
                 rows: snapshot.data!.map((doc) {
                   Map<String, dynamic> data =
-                  doc.data() as Map<String, dynamic>;
+                      doc.data() as Map<String, dynamic>;
+                  String date = "${data['date']}, ${data['time']}";
                   return DataRow(
                     cells: [
-                      DataCell(CustomText(text: data['name'])),
-                      DataCell(CustomText(text: data['address'])),
                       DataCell(
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.money, color: Colors.blue, size: 18),
-                            SizedBox(width: 5),
-                            CustomText(
-                                text: data['payments_amount'].toString()),
-                          ],
-                        ),
-                      ),
+                          Text(data['title'], style: TextStyle(fontSize: 12))),
+                      DataCell(Tooltip(
+                          message: data['descriptions'],
+                          child: Text(data['descriptions'],
+                              style: TextStyle(fontSize: 12)))),
                       DataCell(
-                        Container(
-                          decoration: BoxDecoration(
-                            color: light,
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                                color: Colors.green.shade500, width: .5),
+                          Text(data['filter'], style: TextStyle(fontSize: 12))),
+                      DataCell(Text(date, style: TextStyle(fontSize: 12))),
+                      DataCell(Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Tooltip(
+                            message: 'More',
+                            child: GestureDetector(
+                              onTap: () {},
+                              child: Image.asset(
+                                  'assets/images/icons8-more.png',
+                                  height: 25,
+                                  width: 25),
+                            ),
                           ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 6),
-                          child: CustomText(
-                            text: data['action'],
-                            color: Colors.green.withOpacity(.7),
-                            weight: FontWeight.bold,
+                          SizedBox(width: 5),
+                          Tooltip(
+                            message: 'Delete',
+                            child: GestureDetector(
+                              onTap: () {},
+                              child: Image.asset(
+                                  'assets/images/icons8-delete.png',
+                                  height: 25,
+                                  width: 25),
+                            ),
                           ),
-                        ),
-                      ),
+                          SizedBox(width: 5),
+                          Tooltip(
+                            message: 'Preview',
+                            child: GestureDetector(
+                              onTap: () {},
+                              child: Image.asset(
+                                  'assets/images/icons8-preview.png',
+                                  height: 25,
+                                  width: 25),
+                            ),
+                          ),
+                        ],
+                      )),
                     ],
                   );
                 }).toList(),

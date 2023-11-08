@@ -6,7 +6,6 @@ import 'package:nwss_admin/constants/controllers.dart';
 import 'package:nwss_admin/constants/style.dart';
 import 'package:nwss_admin/helpers/reponsiveness.dart';
 import 'package:nwss_admin/routing/routes.dart';
-import 'package:nwss_admin/widgets/custom_text.dart';
 import 'package:nwss_admin/widgets/side_menu_item.dart';
 
 class SideMenu extends StatelessWidget {
@@ -14,7 +13,6 @@ class SideMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
 
     return Container(
       decoration: BoxDecoration(color: Colors.white

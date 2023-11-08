@@ -52,10 +52,10 @@ class _OverviewPageState extends State<OverviewPage> {
         Expanded(
           child: ListView(
             children: [
-              if (ResponsiveWidget.isLargeScreen(context) || ResponsiveWidget.isMediumScreen(context))
-                if (ResponsiveWidget.isCustomSize(context)) const OverviewCardsMediumScreen() else const OverviewCardsLargeScreen()
-              else
-                const OverviewCardsSmallScreen(),
+              // if (ResponsiveWidget.isLargeScreen(context) || ResponsiveWidget.isMediumScreen(context))
+              //   if (ResponsiveWidget.isCustomSize(context)) const OverviewCardsMediumScreen() else const OverviewCardsLargeScreen()
+              // else
+              //   const OverviewCardsSmallScreen(),
               if (!ResponsiveWidget.isSmallScreen(context)) const RevenueSectionLarge() else const RevenueSectionSmall(),
               AvailableDriversTable(),
             ],

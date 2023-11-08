@@ -1,8 +1,9 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, library_private_types_in_public_api
 
 import 'package:charts_flutter_new/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lottie/lottie.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -43,7 +44,9 @@ class _SimpleBarChartState extends State<SimpleBarChart> {
       future: _chartData,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return Center(
+            child: Lottie.asset('assets/lottie/animation_loading.json', width: 100, height: 100),
+          );
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (snapshot.hasData) {

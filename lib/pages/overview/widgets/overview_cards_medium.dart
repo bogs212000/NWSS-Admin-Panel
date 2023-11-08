@@ -42,7 +42,6 @@ class _OverviewCardsMediumScreenState extends State<OverviewCardsMediumScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -57,7 +56,7 @@ class _OverviewCardsMediumScreenState extends State<OverviewCardsMediumScreen> {
               onTap: () {},
             ),
             InfoCard(
-              title: "Riders",
+              title: "Checker",
               value: documentCountRider != null
                   ? documentCountRider.toString()
                   : 'Loading...',

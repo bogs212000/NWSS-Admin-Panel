@@ -8,6 +8,15 @@ class Assets {
   static const String iconsLogo = 'assets/icons/logo.png';
   static const String iconsWaterDrop = 'assets/icons/water_drop.png';
   static const String imagesError = 'assets/images/error.png';
+  static const String imagesIcons8Delete = 'assets/images/icons8-delete.png';
+  static const String imagesIcons8Engineering96 = 'assets/images/icons8-engineering-96.png';
+  static const String imagesIcons8Facebook96 = 'assets/images/icons8-facebook-96.png';
+  static const String imagesIcons8Guide96 = 'assets/images/icons8-guide-96.png';
+  static const String imagesIcons8More = 'assets/images/icons8-more.png';
+  static const String imagesIcons8PlayStore96 = 'assets/images/icons8-play-store-96.png';
+  static const String imagesIcons8Preview = 'assets/images/icons8-preview.png';
+  static const String imagesIcons8ScrollDown96 = 'assets/images/icons8-scroll-down-96.png';
+  static const String imagesIcons8TermsAndConditions96 = 'assets/images/icons8-terms-and-conditions-96.png';
   static const String imagesProfile = 'assets/images/profile.jpg';
   static const String lottieAnimationAnimeGirl = 'assets/lottie/animation_anime_girl.json';
   static const String lottieAnimationLoading = 'assets/lottie/animation_loading.json';

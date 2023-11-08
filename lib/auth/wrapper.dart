@@ -12,7 +12,6 @@ class Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    User? user = FirebaseAuth.instance.currentUser;
     String? email = FirebaseAuth.instance.currentUser?.email;
     return StreamBuilder<DocumentSnapshot>(
       stream: FirebaseFirestore.instance

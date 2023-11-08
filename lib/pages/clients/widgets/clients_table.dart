@@ -57,8 +57,8 @@ class ClientsTable extends StatelessWidget {
               ));
             } else {
               return DataTable2(
-                columnSpacing: 2,
-                dataRowHeight: 30,
+                columnSpacing: 5,
+                dataRowHeight: 40,
                 headingRowHeight: 30,
                 horizontalMargin: 5,
                 minWidth: 600,
@@ -94,6 +94,12 @@ class ClientsTable extends StatelessWidget {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
+                  DataColumn(
+                    label: Text(
+                      '',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 ],
                 rows: snapshot.data!.map((doc) {
                   Map<String, dynamic> data =
@@ -104,7 +110,41 @@ class ClientsTable extends StatelessWidget {
                       DataCell(CustomText(text: data['balance_to_pay'])),
                       DataCell(CustomText(text: data['address'])),
                       DataCell(CustomText(text: data['contactNo'])),
-                      DataCell(CustomText(text: data['water_usage'])),
+                      DataCell(Row(
+
+                        children: [
+                          Text(
+                            data['water_usage'],
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            '  Cubic Meter ',
+                            style: TextStyle(fontSize: 12),
+                          ),
+                        ],
+                      )),
+                      DataCell(Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Tooltip(
+                            message: 'More',
+                            child: GestureDetector(
+                              onTap: () {},
+                              child: Image.asset('assets/images/icons8-more.png',
+                                  height: 25, width: 25),
+                            ),
+                          ),
+                          SizedBox(width: 5),
+                          Tooltip(
+                            message: 'Preview',
+                            child: GestureDetector(
+                              onTap: () {},
+                              child: Image.asset('assets/images/icons8-preview.png',
+                                  height: 25, width: 25),
+                            ),
+                          ),
+                        ],
+                      )),
                     ],
                   );
                 }).toList(),

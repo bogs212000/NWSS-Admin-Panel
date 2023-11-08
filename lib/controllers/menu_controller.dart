@@ -26,11 +26,13 @@ class MenuController extends GetxController {
       case overviewPageDisplayName:
         return _customIcon(Icons.trending_up, itemName);
       case driversPageDisplayName:
-        return _customIcon(Icons.directions_bike, itemName);
+        return _customIcon(Icons.admin_panel_settings_outlined, itemName);
       case clientsPageDisplayName:
         return _customIcon(Icons.people_alt_outlined, itemName);
       case notificationsPageDisplayName:
-        return _customIcon(Icons.notifications_active, itemName);
+        return _customIcon(Icons.notifications_active_outlined, itemName);
+      case chatPageDisplayName:
+        return _customIcon(Icons.chat_outlined, itemName);
       case controlPageDisplayName:
         return _customIcon(Icons.keyboard_command_key, itemName);
       default:

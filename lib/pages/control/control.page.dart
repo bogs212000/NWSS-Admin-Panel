@@ -5,6 +5,7 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nwss_admin/constants/controllers.dart';
 import 'package:nwss_admin/helpers/reponsiveness.dart';
+import 'package:nwss_admin/pages/control/widgets/fb_link.dart';
 import 'package:nwss_admin/pages/control/widgets/force_update.dart';
 import 'package:nwss_admin/pages/control/widgets/guide.dart';
 import 'package:nwss_admin/pages/control/widgets/maintenance.dart';
@@ -46,11 +47,8 @@ class _ControlPageState extends State<ControlPage> {
               children: [
                 SizedBox(
                   width: 100,
-                  child: Lottie.asset(
-                    'assets/lottie/animation_anime_girl.json',
-                    height: 100,
-                    width: 100,
-                  ),
+                  child: Lottie.asset('assets/lottie/animation_anime_girl.json',
+                      height: 100, width: 100, repeat: false),
                 ),
                 controlNote!.isNotEmpty
                     ? Expanded(
@@ -73,30 +71,24 @@ class _ControlPageState extends State<ControlPage> {
             SizedBox(height: 20),
             LayoutBuilder(
               builder: (context, constraints) {
-                final isSmallScreen = ResponsiveWidget.isCustomSize(context) || ResponsiveWidget.isSmallScreen(context);
-
+                final isSmallScreen = ResponsiveWidget.isCustomSize(context) ||
+                    ResponsiveWidget.isSmallScreen(context);
                 return isSmallScreen
                     ? Column(
-                  children: [
-                    TermsAndConditions(),
-                    UserGuide(),
-                  ],
-                )
+                        children: [
+                          TermsAndConditions(),
+                          UserGuide(),
+                          Facebook(),
+                        ],
+                      )
                     : Row(
-                  children: [
-                    TermsAndConditions(),
-                    UserGuide(),
-                  ],
-                );
+                        children: [
+                          TermsAndConditions(),
+                          UserGuide(),
+                          Facebook(),
+                        ],
+                      );
               },
-            ),
-
-            Row(
-              children: [
-                ReleaseMode(),
-                Maintenance(),
-                ForceUpdate(),
-              ],
             ),
           ],
         ),

@@ -5,16 +5,16 @@ import 'package:lottie/lottie.dart';
 import 'package:nwss_admin/constants/controllers.dart';
 import 'package:nwss_admin/helpers/reponsiveness.dart';
 
-class TermsAndConditions extends StatefulWidget {
-  const TermsAndConditions({super.key});
+class Facebook extends StatefulWidget {
+  const Facebook({super.key});
 
   @override
-  State<TermsAndConditions> createState() => _TermsAndConditionsState();
+  State<Facebook> createState() => _FacebookState();
 }
 
-class _TermsAndConditionsState extends State<TermsAndConditions> {
-  final TextEditingController termsAndConditionsController =
-      TextEditingController();
+class _FacebookState extends State<Facebook> {
+  final TextEditingController facebookController =
+  TextEditingController();
   bool isSaving = false;
   bool isTextFieldEmpty = true;
 
@@ -22,9 +22,9 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
   void initState() {
     super.initState();
 
-    termsAndConditionsController.addListener(() {
+    facebookController.addListener(() {
       setState(() {
-        isTextFieldEmpty = termsAndConditionsController.text.isEmpty;
+        isTextFieldEmpty = facebookController.text.isEmpty;
       });
     });
   }
@@ -55,11 +55,9 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset(
-                      'assets/images/icons8-terms-and-conditions-96.png',
-                      scale: 2),
+                  Image.asset('assets/images/icons8-facebook-96.png', scale: 2),
                   SizedBox(width: 10),
-                  Text('Terms and Conditions'),
+                  Text('Facebook Page'),
                   Spacer(),
                   GestureDetector(
                       onTap: () {},
@@ -87,7 +85,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
                     height: 40,
                     width: ResponsiveWidget.isSmallScreen(context) ? 100 : 150,
                     child: TextField(
-                      controller: termsAndConditionsController,
+                      controller: facebookController,
                       decoration: InputDecoration(
                         labelText: "Link",
                         hintText: "https://.....",
@@ -107,57 +105,57 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
                     onPressed: isTextFieldEmpty || isSaving
                         ? null
                         : () async {
-                            setState(() {
-                              isSaving = true;
-                            });
+                      setState(() {
+                        isSaving = true;
+                      });
 
-                            try {
-                              await fbStore
-                                  .collection('App Settings')
-                                  .doc('Terms and conditions')
-                                  .update({
-                                'Link': termsAndConditionsController.text
-                                    .toString()
-                                    .trim(),
-                              });
-                              termsAndConditionsController.clear();
-                            } catch (e) {
-                              await showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Text('Error'),
-                                    content: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                            'An error occurred. Please try again later.'),
-                                        // You can add more error information here if needed.
-                                      ],
-                                    ),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context)
-                                              .pop(); // Close the dialog
-                                        },
-                                        child: Text('OK'),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            } finally {
-                              setState(() {
-                                isSaving = false;
-                              });
-                            }
+                      try {
+                        await fbStore
+                            .collection('App Settings')
+                            .doc('Facebook')
+                            .update({
+                          'Link': facebookController.text
+                              .toString()
+                              .trim(),
+                        });
+                        facebookController.clear();
+                      } catch (e) {
+                        await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text('Error'),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      'An error occurred. Please try again later.'),
+                                  // You can add more error information here if needed.
+                                ],
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pop(); // Close the dialog
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            );
                           },
+                        );
+                      } finally {
+                        setState(() {
+                          isSaving = false;
+                        });
+                      }
+                    },
                     child: isSaving
                         ? Lottie.asset('assets/lottie/animation_loading.json',
-                            width: 50, height: 50)
+                        width: 50, height: 50)
                         : Text('Save'),
                   ),
                 ],

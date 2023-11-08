@@ -15,7 +15,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case clientsPageRoute:
       return _getPageRoute(const ClientsPage());
     case notificationsPageRoute:
-      return _getPageRoute(const NotificationsPage());
+      return _getPageRoute(NotificationsPage());
     default:
       return _getPageRoute(const ControlPage());
   }
