@@ -24,7 +24,7 @@ class _UserGuideState extends State<UserGuide> {
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
-          height: 300,
+          height: 200,
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: Colors.white,

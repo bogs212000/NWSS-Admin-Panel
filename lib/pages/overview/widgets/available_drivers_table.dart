@@ -33,9 +33,11 @@ class _AvailableDriversTableState extends State<AvailableDriversTable> {
         border: Border.all(color: active.withOpacity(.4), width: .5),
         boxShadow: [
           BoxShadow(
-              offset: Offset(0, 6),
-              color: lightGrey.withOpacity(.1),
-              blurRadius: 12)
+            color: Colors.grey, // Shadow color
+            blurRadius: 10, // How much the shadow should blur
+            offset: Offset(0, 5), // Shadow offset from the container
+            spreadRadius: 0, // How much the shadow should spread
+          ),
         ],
         borderRadius: BorderRadius.circular(8),
       ),

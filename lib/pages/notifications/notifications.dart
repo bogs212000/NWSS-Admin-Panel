@@ -180,7 +180,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
                               await fbStore
                                   .collection('NewsUpdate')
-                                  .doc(now.toString())
+                                  .doc()
                                   .set(data);
 
                               setState(() => isLoading = false);

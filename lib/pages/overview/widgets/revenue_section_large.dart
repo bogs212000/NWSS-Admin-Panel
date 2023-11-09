@@ -5,7 +5,7 @@ import 'package:nwss_admin/constants/style.dart';
 import 'package:nwss_admin/pages/overview/widgets/bar_chart.dart';
 import 'package:nwss_admin/pages/overview/widgets/revenue_info.dart';
 import 'package:nwss_admin/widgets/custom_text.dart';
-
+import 'package:percent_indicator/percent_indicator.dart';
 
 class RevenueSectionLarge extends StatelessWidget {
   const RevenueSectionLarge({super.key});
@@ -21,9 +21,11 @@ class RevenueSectionLarge extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                   boxShadow: [
                     BoxShadow(
-                        offset: const Offset(0, 6),
-                        color: lightGrey.withOpacity(.1),
-                        blurRadius: 12)
+                      color: Colors.grey, // Shadow color
+                      blurRadius: 10, // How much the shadow should blur
+                      offset: Offset(0, 5), // Shadow offset from the container
+                      spreadRadius: 0, // How much the shadow should spread
+                    ),
                   ],
                   border: Border.all(color: lightGrey, width: .5),
                 ),
@@ -51,35 +53,20 @@ class RevenueSectionLarge extends StatelessWidget {
                       height: 120,
                       color: lightGrey,
                     ),
-                    const Expanded(
+                    Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Row(
-                            children: [
-                              RevenueInfo(
-                                title: "Revenue",
-                                amount: "230",
-                              ),
-                              RevenueInfo(
-                                title: "Last 7 days",
-                                amount: "1,100",
-                              ),
-                            ],
+                          const CustomText(
+                            text: "Water Price",
+                            size: 20,
+                            weight: FontWeight.bold,
+                            color: lightGrey,
                           ),
-                          SizedBox(height: 30,),
-                          Row(
-                            children: [
-                              RevenueInfo(
-                                title: "Last 30 days",
-                                amount: "3,230",
-                              ),
-                              RevenueInfo(
-                                title: "Last 12 months",
-                                amount: "11,300",
-                              ),
-                            ],
-                          ),
+                          SizedBox(
+                              width: 600,
+                              height: 200,
+                              child: SimpleBarChart()),
                         ],
                       ),
                     ),

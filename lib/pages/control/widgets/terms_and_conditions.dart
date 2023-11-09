@@ -35,7 +35,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
-          height: 300,
+          height: 200,
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: Colors.white,

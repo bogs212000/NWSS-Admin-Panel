@@ -43,31 +43,31 @@ class _ControlPageState extends State<ControlPage> {
         Column(
           children: [
             SizedBox(height: 20),
-            Row(
-              children: [
-                SizedBox(
-                  width: 100,
-                  child: Lottie.asset('assets/lottie/animation_anime_girl.json',
-                      height: 100, width: 100, repeat: false),
-                ),
-                controlNote!.isNotEmpty
-                    ? Expanded(
-                        child: Container(
-                          padding: EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                            color: Colors.red.shade100,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20),
-                              bottomRight: Radius.circular(20),
-                            ),
-                          ),
-                          child: Text("$controlNote"),
-                        ),
-                      )
-                    : Text('...'),
-              ],
-            ),
+            // Row(
+            //   children: [
+            //     SizedBox(
+            //       width: 100,
+            //       child: Lottie.asset('assets/lottie/animation_anime_girl.json',
+            //           height: 100, width: 100, repeat: false),
+            //     ),
+            //     controlNote!.isNotEmpty
+            //         ? Expanded(
+            //             child: Container(
+            //               padding: EdgeInsets.all(20),
+            //               decoration: BoxDecoration(
+            //                 color: Colors.red.shade100,
+            //                 borderRadius: BorderRadius.only(
+            //                   topLeft: Radius.circular(20),
+            //                   topRight: Radius.circular(20),
+            //                   bottomRight: Radius.circular(20),
+            //                 ),
+            //               ),
+            //               child: Text("$controlNote"),
+            //             ),
+            //           )
+            //         : Text('...'),
+            //   ],
+            // ),
             SizedBox(height: 20),
             LayoutBuilder(
               builder: (context, constraints) {
@@ -81,13 +81,23 @@ class _ControlPageState extends State<ControlPage> {
                           Facebook(),
                         ],
                       )
-                    : Row(
-                        children: [
-                          TermsAndConditions(),
-                          UserGuide(),
-                          Facebook(),
-                        ],
-                      );
+                    : Column(
+                      children: [
+                        Row(
+                            children: [
+                              TermsAndConditions(),
+                              UserGuide(),
+                              Facebook(),
+                            ],
+                          ),
+                        Row(children: [
+                          ReleaseMode(),
+                          Maintenance(),
+                          ForceUpdate(),
+
+                        ],)
+                      ],
+                    );
               },
             ),
           ],

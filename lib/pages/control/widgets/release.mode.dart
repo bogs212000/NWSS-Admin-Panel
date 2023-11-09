@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nwss_admin/constants/controllers.dart'; // Make sure you import your controllers correctly
 
@@ -15,18 +16,50 @@ class _ReleaseModeState extends State<ReleaseMode> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10),
-      child: Row(
-        children: [
-          Text('Release mode '),
-          Checkbox(
-            value: releaseMode, // Make sure 'value' is a boolean variable
-            onChanged: (newValue) {
-              setState(() {
-                updateReleaseMode(newValue!);
-              });
-            }, // Make sure 'onChanged' is a function to handle checkbox changes
-          ),
-        ],
+      child: Container(
+        padding: EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.grey, // Shadow color
+              blurRadius: 10, // How much the shadow should blur
+              offset: Offset(0, 5), // Shadow offset from the container
+              spreadRadius: 0, // How much the shadow should spread
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset('assets/images/icons8-play-store-96.png', scale: 2),
+                  SizedBox(width: 10),
+                  Text('Google Play'),
+                ]),
+            Row(
+              children: [
+                Text('Release mode '),
+                SizedBox(width: 10),
+                CupertinoSwitch(
+                  // overrides the default green color of the track
+                  activeColor: Colors.green.shade900,
+                  // color of the round icon, which moves from right to left
+                  thumbColor: Colors.white,
+                  // when the switch is off
+                  trackColor: Colors.green.shade900,
+                  // boolean variable value
+                  value: releaseMode!,
+                  // changes the state of the switch
+                  onChanged: (value) => setState(() => releaseMode = value),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
