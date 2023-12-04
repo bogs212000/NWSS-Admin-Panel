@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:nwss_admin/constants/controllers.dart'; // Make sure you import your controllers correctly
 
 class Maintenance extends StatefulWidget {
@@ -35,7 +36,8 @@ class _MaintenanceState extends State<Maintenance> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset('assets/images/icons8-engineering-96.png', scale: 2),
+                  Image.asset('assets/images/icons8-engineering-96.png',
+                      scale: 2),
                   SizedBox(width: 10),
                   Text('Maintenance'),
                 ]),
@@ -44,35 +46,30 @@ class _MaintenanceState extends State<Maintenance> {
                 Text('Maintenance mode '),
                 SizedBox(width: 10),
                 CupertinoSwitch(
-                  // overrides the default green color of the track
                   activeColor: Colors.green.shade900,
-                  // color of the round icon, which moves from right to left
                   thumbColor: Colors.white,
-                  // when the switch is off
-                  trackColor: Colors.green.shade900,
-                  // boolean variable value
+                  trackColor: Colors.grey,
                   value: maintenanceMode!,
-                  // changes the state of the switch
-                  onChanged: (value) => setState(() => maintenanceMode = value),
+                  onChanged: (value) async {
+                    await fbStore
+                        .collection('App Settings')
+                        .doc('maintenance')
+                        .update({'maintenance': value});
+
+                    setState(() {
+                      maintenanceMode = value;
+                    });
+                    _showDialogSuccess();
+                  },
                 ),
               ],
             ),
           ],
         ),
       ),
-    );
-  }
-
-  Future<void> updateMaintenance(bool newValue) async {
-    maintenanceMode = newValue;
-    try {
-      await fbStore.collection('App Settings').doc('maintenance').update({
-        'maintenance': maintenanceMode,
-      });
-      _showDialogSuccess();
-    } catch (e) {
-      _showDialogError();
-    }
+    )
+        .animate(delay: Duration(milliseconds: 500))
+        .fadeIn(duration: 500.ms, curve: Curves.easeIn);
   }
 
   void _showDialogSuccess() {

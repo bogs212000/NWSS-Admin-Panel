@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nwss_admin/constants/style.dart';
 
@@ -146,6 +147,6 @@ class _AvailableDriversTableState extends State<AvailableDriversTable> {
           ),
         ],
       ),
-    );
+    ).animate(delay: Duration(milliseconds: 400)).fadeIn(duration: 400.ms, curve: Curves.easeIn);
   }
 }

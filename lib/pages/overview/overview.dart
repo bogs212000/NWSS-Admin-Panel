@@ -30,6 +30,7 @@ class _OverviewPageState extends State<OverviewPage> {
     fetchControl(setState);
     fetchTermsConditions(setState);
     fetchGuide(setState);
+    fetchPackageInfo(setState);
   }
 
   @override

@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nwss_admin/constants/controllers.dart';
 import 'package:nwss_admin/constants/style.dart';
 import 'package:nwss_admin/helpers/reponsiveness.dart';
 
@@ -37,6 +38,7 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
                 weight: FontWeight.bold,
               )),
           Expanded(child: Container()),
+          Text("Version: ${packageInfo.toString()}", style: TextStyle(color: Colors.black54, fontSize: 12)),
           IconButton(
               icon: const Icon(
                 Icons.light_mode,

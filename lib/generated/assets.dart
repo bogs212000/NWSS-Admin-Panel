@@ -13,6 +13,8 @@ class Assets {
   static const String imagesIcons8Facebook96 = 'assets/images/icons8-facebook-96.png';
   static const String imagesIcons8Guide96 = 'assets/images/icons8-guide-96.png';
   static const String imagesIcons8More = 'assets/images/icons8-more.png';
+  static const String imagesIcons8Night96 = 'assets/images/icons8-night-96.png';
+  static const String imagesIcons8PartlyCloudyDay96 = 'assets/images/icons8-partly-cloudy-day-96.png';
   static const String imagesIcons8PlayStore96 = 'assets/images/icons8-play-store-96.png';
   static const String imagesIcons8Preview = 'assets/images/icons8-preview.png';
   static const String imagesIcons8ScrollDown96 = 'assets/images/icons8-scroll-down-96.png';

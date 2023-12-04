@@ -1,25 +1,22 @@
-// ignore_for_file: prefer_const_constructors_in_immutables
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nwss_admin/constants/controllers.dart';
-import 'package:nwss_admin/constants/style.dart';
-import 'package:nwss_admin/pages/authentication/sign_up.dart';
-import 'package:nwss_admin/widgets/custom_text.dart';
 
-class AuthenticationPage extends StatefulWidget {
-  AuthenticationPage({Key? key}) : super(key: key);
+import '../../constants/style.dart';
+import '../../widgets/custom_text.dart';
+import 'authentication.dart';
+
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
 
   @override
-  State<AuthenticationPage> createState() => _AuthenticationPageState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _AuthenticationPageState extends State<AuthenticationPage> {
+class _SignUpState extends State<SignUp> {
   final TextEditingController emailController = TextEditingController();
-
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController cpasswordController = TextEditingController();
 
-  bool isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +45,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
               Row(
                 children: [
                   Text(
-                    "Login",
+                    "Request Credentials",
                     style: GoogleFonts.roboto(
                         fontSize: 30, fontWeight: FontWeight.bold),
                   ),
@@ -56,14 +53,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
               ),
               const SizedBox(
                 height: 10,
-              ),
-              const Row(
-                children: [
-                  CustomText(
-                    text: "Welcome back to NWSS admin panel.",
-                    color: lightGrey,
-                  ),
-                ],
               ),
               const SizedBox(
                 height: 15,
@@ -82,27 +71,24 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                 height: 15,
               ),
               TextField(
-                controller: passwordController,
-                obscureText: !isPasswordVisible,
                 decoration: InputDecoration(
                   labelText: "Password",
                   hintText: "123456",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      isPasswordVisible
-                          ? Icons.visibility
-                          : Icons.visibility_off,
-                      color: Colors.grey,
-                    ),
-                    onPressed: () {
-                      // Toggle password visibility
-                      setState(() {
-                        isPasswordVisible = !isPasswordVisible;
-                      });
-                    },
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              TextField(
+                controller: passwordController,
+                decoration: InputDecoration(
+                  labelText: "Confirm Password",
+                  hintText: "123456",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
                   ),
                 ),
               ),
@@ -119,7 +105,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                   //   ],
                   // ),
 
-                  CustomText(text: "Forgot password?", color: active)
+
                 ],
               ),
               const SizedBox(
@@ -128,10 +114,11 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
               InkWell(
                 onTap: () async {
                   try {
-                    await fbAuth.signInWithEmailAndPassword(
-                      email: emailController.text.trim().toString(),
-                      password: passwordController.text.trim().toString(),
-                    );
+                    if (emailController.text.isEmpty ||
+                        passwordController.text.isEmpty ||
+                        cpasswordController.text.isEmpty){
+
+                    }
                   } catch (e) {
                     print(e);
                   }
@@ -145,7 +132,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                   width: double.maxFinite,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: const CustomText(
-                    text: "Login",
+                    text: "Request",
                     color: Colors.white,
                   ),
                 ),
@@ -154,27 +141,23 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                 height: 15,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  const Text("Do not have admin credentials? ",
-                      style: TextStyle(color: Colors.black)),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(_toSignUp());
-                    },
-                    child: const Text("Request Credentials!",
-                        style: TextStyle(color: active)),
-                  ),
+                  GestureDetector(onTap: () {
+                    Navigator.of(context).push(_toLogIn());
+                  },
+                      child: const Text('Log in', style: TextStyle(color: active),))
                 ],
-              ),
+              )
             ],
           ),
         ),
       ),
     );
   }
-  Route _toSignUp() {
+  Route _toLogIn() {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, anotherAnimation) => SignUp(),
+      pageBuilder: (context, animation, anotherAnimation) => AuthenticationPage(),
       transitionDuration: Duration(milliseconds: 1000),
       reverseTransitionDuration: Duration(milliseconds: 200),
       transitionsBuilder: (context, animation, anotherAnimation, child) {
@@ -187,7 +170,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
             position: Tween(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0))
                 .animate(animation),
             textDirection: TextDirection.rtl,
-            child: SignUp());
+            child: AuthenticationPage());
       },
     );
   }

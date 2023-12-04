@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nwss_admin/constants/controllers.dart';
 import 'package:nwss_admin/helpers/reponsiveness.dart';
@@ -69,7 +70,7 @@ class _FacebookState extends State<Facebook> {
               Row(
                 children: [
                   Tooltip(
-                    message: '...',
+                    message: fbLink == null || fbLink == "" ? '...' : fbLink,
                     child: Column(
                       children: [
                         Icon(Icons.online_prediction, color: Colors.green),
@@ -83,7 +84,7 @@ class _FacebookState extends State<Facebook> {
                   SizedBox(width: 10),
                   SizedBox(
                     height: 40,
-                    width: ResponsiveWidget.isSmallScreen(context) ? 100 : 150,
+                    width: ResponsiveWidget.isSmallScreen(context) ? 100 : 120,
                     child: TextField(
                       controller: facebookController,
                       decoration: InputDecoration(
@@ -164,6 +165,6 @@ class _FacebookState extends State<Facebook> {
           ),
         ),
       ),
-    );
+    ).animate(delay: Duration(milliseconds: 300)).fadeIn(duration: 300.ms, curve: Curves.easeIn);
   }
 }

@@ -2,7 +2,8 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nwss_admin/constants/controllers.dart'; // Make sure you import your controllers correctly
+import 'package:nwss_admin/constants/controllers.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class ForceUpdate extends StatefulWidget {
   ForceUpdate({Key? key}) : super(key: key);
@@ -36,44 +37,39 @@ class _ForceUpdateState extends State<ForceUpdate> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset('assets/images/icons8-scroll-down-96.png', scale: 2),
+                  Image.asset('assets/images/icons8-scroll-down-96.png',
+                      scale: 2),
                   SizedBox(width: 10),
                   Text('Force Update'),
                 ]),
             Row(
               children: [
-                Text('Maintenance mode '),
+                Text('Force Update'),
                 SizedBox(width: 10),
                 CupertinoSwitch(
-                  // overrides the default green color of the track
                   activeColor: Colors.green.shade900,
-                  // color of the round icon, which moves from right to left
                   thumbColor: Colors.white,
-                  // when the switch is off
-                  trackColor: Colors.green.shade900,
-                  // boolean variable value
+                  trackColor: Colors.grey,
                   value: forceUpdate!,
-                  // changes the state of the switch
-                  onChanged: (value) => setState(() => forceUpdate = value),
+                  onChanged: (value) async {
+                    await fbStore
+                        .collection('App Settings')
+                        .doc('Control')
+                        .update({'force update': value});
+                    setState(() {
+                      forceUpdate = value;
+                    });
+                    _showDialogSuccess();
+                  },
                 ),
               ],
             ),
           ],
         ),
       ),
-    );
-  }
-
-  Future<void> updateForceUpdate(bool newValue) async {
-    forceUpdate = newValue;
-    try {
-      await fbStore.collection('App Settings').doc('Control').update({
-        'force update': forceUpdate,
-      });
-      _showDialogSuccess();
-    } catch (e) {
-      _showDialogError();
-    }
+    )
+        .animate(delay: Duration(milliseconds: 600))
+        .fadeIn(duration: 600.ms, curve: Curves.easeIn);
   }
 
   void _showDialogSuccess() {

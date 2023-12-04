@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nwss_admin/constants/controllers.dart';
 import 'package:nwss_admin/helpers/reponsiveness.dart';
@@ -58,7 +59,7 @@ class _UserGuideState extends State<UserGuide> {
               Row(
                 children: [
                   Tooltip(
-                    message: '...',
+                    message: guideLink,
                     child: Column(
                       children: [
                         Icon(Icons.online_prediction, color: Colors.green),
@@ -72,7 +73,7 @@ class _UserGuideState extends State<UserGuide> {
                   SizedBox(width: 10),
                   SizedBox(
                     height: 40,
-                    width: ResponsiveWidget.isSmallScreen(context) ? 100 : 150,
+                    width: ResponsiveWidget.isSmallScreen(context) ? 100 : 120,
                     child: TextField(
                       controller: guideController,
                       decoration: InputDecoration(
@@ -152,7 +153,7 @@ class _UserGuideState extends State<UserGuide> {
           ),
         ),
       ),
-    );
+    ).animate(delay: Duration(milliseconds: 200)).fadeIn(duration: 200.ms, curve: Curves.easeIn);
   }
 
   void _showDialog() {

@@ -169,6 +169,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                               setState(() => isLoading = true);
 
                               final data = {
+                                'id': now.toString(),
                                 'createdAt': now,
                                 'date': formattedDate,
                                 'time': formattedTime,
@@ -180,7 +181,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
                               await fbStore
                                   .collection('NewsUpdate')
-                                  .doc()
+                                  .doc(now.toString())
                                   .set(data);
 
                               setState(() => isLoading = false);

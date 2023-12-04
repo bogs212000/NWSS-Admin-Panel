@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nwss_admin/constants/controllers.dart';
 import 'package:nwss_admin/helpers/reponsiveness.dart';
@@ -71,7 +72,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
               Row(
                 children: [
                   Tooltip(
-                    message: '...',
+                    message: termsConditionsLink,
                     child: Column(
                       children: [
                         Icon(Icons.online_prediction, color: Colors.green),
@@ -85,7 +86,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
                   SizedBox(width: 10),
                   SizedBox(
                     height: 40,
-                    width: ResponsiveWidget.isSmallScreen(context) ? 100 : 150,
+                    width: ResponsiveWidget.isSmallScreen(context) || ResponsiveWidget.isCustomSize(context) ? 100 : 120,
                     child: TextField(
                       controller: termsAndConditionsController,
                       decoration: InputDecoration(
@@ -166,6 +167,6 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
           ),
         ),
       ),
-    );
+    ).animate(delay: Duration(milliseconds: 100)).fadeIn(duration: 100.ms, curve: Curves.easeIn);
   }
 }

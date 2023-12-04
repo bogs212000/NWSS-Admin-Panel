@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:nwss_admin/constants/controllers.dart';
 import 'package:nwss_admin/constants/style.dart';
 import 'package:nwss_admin/widgets/custom_text.dart';
 
@@ -18,6 +19,7 @@ class NotificationsTable extends StatefulWidget {
 }
 
 class _NotificationsTableState extends State<NotificationsTable> {
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     Future<List<DocumentSnapshot>> firebaseData() async {
@@ -28,7 +30,7 @@ class _NotificationsTableState extends State<NotificationsTable> {
       return querySnapshot.docs;
     }
 
-    return Container(
+    return isLoading ? Lottie.asset('assets/lottie/animation_loading.json', width: 100, height: 100) : Container(
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(color: active.withOpacity(.4), width: .5),
@@ -129,7 +131,21 @@ class _NotificationsTableState extends State<NotificationsTable> {
                           Tooltip(
                             message: 'Delete',
                             child: GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                try {
+
+                                  fbStore.collection('NewsUpdate').doc(data['id']).delete();
+                                  print('Deleted');
+                                } catch (e) {
+                                  print(e);
+                                }
+                                setState(() {
+                                  isLoading = false;
+                                });
+                              },
                               child: Image.asset(
                                   'assets/images/icons8-delete.png',
                                   height: 25,
@@ -159,4 +175,6 @@ class _NotificationsTableState extends State<NotificationsTable> {
       ),
     );
   }
+
 }
+
