@@ -12,6 +12,9 @@ const clientsPageRoute = "/clients";
 const notificationsPageDisplayName = "Notifications";
 const notificationsPageRoute = "/notifications";
 
+const transactionsPageDisplayName = "Transactions";
+const transactionsPageRoute = "/transactions";
+
 const chatPageDisplayName = "Chat";
 const chatPageRoute = "/chat";
 
@@ -33,6 +36,7 @@ List<MenuItem> sideMenuItemRoutes = [
   MenuItem(driversPageDisplayName, driversPageRoute),
   MenuItem(clientsPageDisplayName, clientsPageRoute),
   MenuItem(notificationsPageDisplayName, notificationsPageRoute),
+  MenuItem(transactionsPageDisplayName, transactionsPageRoute),
   MenuItem(chatPageDisplayName, chatPageRoute),
   MenuItem(controlPageDisplayName, controlPageRoute),
   MenuItem(authenticationPageDisplayName, authenticationPageRoute),

@@ -4,6 +4,7 @@ import 'package:nwss_admin/auth/auth_wrapper.dart';
 import 'package:nwss_admin/controllers/menu_controller.dart' as menu_controller;
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nwss_admin/pages/authentication/authentication.dart';
 import 'constants/style.dart';
 import 'controllers/navigation_controller.dart';
 
@@ -40,6 +41,10 @@ class _MyAppState extends State<MyApp> {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Dashboard',
+      routes: {
+        '/login': (context) => AuthenticationPage(),
+        // Add other routes as needed
+      },
       theme: ThemeData(
         scaffoldBackgroundColor: light,
         textTheme: GoogleFonts.mulishTextTheme(Theme.of(context).textTheme).apply(bodyColor: Colors.black),

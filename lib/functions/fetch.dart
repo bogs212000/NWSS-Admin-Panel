@@ -26,6 +26,19 @@ Future<void> fetchMaintenance(Function setState) async {
   }
 }
 
+Future<void> fetchCurrentWaterPrice(Function setState) async {
+  try {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('price')
+        .doc('price')
+        .get();
+    currentWaterPrice = snapshot.data()?['current'];
+  } catch (e) {
+    // Handle errors
+  }
+}
+
+
 
 Future<void> fetchControl(Function setState) async {
   try {

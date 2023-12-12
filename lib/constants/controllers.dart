@@ -11,6 +11,7 @@ MenuController menuController = MenuController.instance;
 NavigationController navigationController = NavigationController.instance;
 bool? releaseMode;
 bool? maintenanceMode;
+double? currentWaterPrice;
 String? controlNote;
 bool? forceUpdate;
 String? guideLink;

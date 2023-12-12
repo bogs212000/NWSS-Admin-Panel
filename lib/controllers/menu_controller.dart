@@ -31,6 +31,8 @@ class MenuController extends GetxController {
         return _customIcon(Icons.people_alt_outlined, itemName);
       case notificationsPageDisplayName:
         return _customIcon(Icons.notifications_active_outlined, itemName);
+      case transactionsPageDisplayName:
+        return _customIcon(Icons.list_alt_outlined, itemName);
       case chatPageDisplayName:
         return _customIcon(Icons.chat_outlined, itemName);
       case controlPageDisplayName:

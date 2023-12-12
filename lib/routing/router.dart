@@ -4,6 +4,7 @@ import 'package:nwss_admin/pages/control/control.page.dart';
 import 'package:nwss_admin/pages/drivers/drivers.dart';
 import 'package:nwss_admin/pages/notifications/notifications.dart';
 import 'package:nwss_admin/pages/overview/overview.dart';
+import 'package:nwss_admin/pages/transactions/transactions.dart';
 import 'package:nwss_admin/routing/routes.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -16,6 +17,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(const ClientsPage());
     case notificationsPageRoute:
       return _getPageRoute(NotificationsPage());
+    case transactionsPageRoute:
+      return _getPageRoute(TransactionPage());
     default:
       return _getPageRoute(const ControlPage());
   }

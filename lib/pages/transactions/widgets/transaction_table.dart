@@ -10,13 +10,13 @@ import 'package:nwss_admin/widgets/custom_text.dart';
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 /// Example without datasource
-class ClientsTable extends StatelessWidget {
-  const ClientsTable({super.key});
+class TransactionTable extends StatelessWidget {
+  const TransactionTable({super.key});
 
   @override
   Widget build(BuildContext context) {
     Future<List<DocumentSnapshot>> firebaseData() async {
-      QuerySnapshot querySnapshot = await _firestore.collection('user').get();
+      QuerySnapshot querySnapshot = await _firestore.collection('transactions').get();
       return querySnapshot.docs;
     }
 
@@ -106,7 +106,7 @@ class ClientsTable extends StatelessWidget {
                 ],
                 rows: snapshot.data!.map((doc) {
                   Map<String, dynamic> data =
-                      doc.data() as Map<String, dynamic>;
+                  doc.data() as Map<String, dynamic>;
                   return DataRow(
                     cells: [
                       DataCell(CustomText(text: data['name'])),

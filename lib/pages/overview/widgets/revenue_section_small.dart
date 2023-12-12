@@ -51,35 +51,24 @@ class RevenueSectionSmall extends StatelessWidget {
                       height: 1,
                       color: lightGrey,
                     ),
-                    const SizedBox(
+                  SizedBox(
                       height: 260,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Row(
-                            children: [
-                              RevenueInfo(
-                                title: "Revenue",
-                                amount: "230",
-                              ),
-                              RevenueInfo(
-                                title: "Last 7 days",
-                                amount: "1,100",
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              RevenueInfo(
-                                title: "Last 30 days",
-                                amount: "3,230",
-                              ),
-                              RevenueInfo(
-                                title: "Last 12 months",
-                                amount: "11,300",
-                              ),
-                            ],
-                          ),
+                          Row(children: [const CustomText(
+                      text: "Current water price",
+                      size: 15,
+                      weight: FontWeight.bold,
+                      color: lightGrey,
+                    ),
+                    Spacer(), const CustomText(
+                      text: "Change",
+                      size: 12,
+                      weight: FontWeight.bold,
+                      color: lightGrey,
+                    ), GestureDetector(child: Icon(Icons.change_circle))],),
+                          
                         ],
                       ),
                     ),

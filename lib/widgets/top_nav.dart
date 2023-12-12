@@ -38,7 +38,7 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
                 weight: FontWeight.bold,
               )),
           Expanded(child: Container()),
-          Text("Version: ${packageInfo.toString()}", style: TextStyle(color: Colors.black54, fontSize: 12)),
+          Text( packageInfo != null ? "Version: ${packageInfo.toString()}" : "...", style: TextStyle(color: Colors.black54, fontSize: 12)),
           IconButton(
               icon: const Icon(
                 Icons.light_mode,
@@ -77,7 +77,7 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
             width: 24,
           ),
           ResponsiveWidget.isSmallScreen(context) ? SizedBox() :CustomText(
-            text: "Garry Earl D. Lontes",
+            text: "Narra Water Suppy System",
             color: lightGrey,
           ),
           const SizedBox(

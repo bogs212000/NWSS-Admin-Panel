@@ -30,151 +30,203 @@ class _NotificationsTableState extends State<NotificationsTable> {
       return querySnapshot.docs;
     }
 
-    return isLoading ? Lottie.asset('assets/lottie/animation_loading.json', width: 100, height: 100) : Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: active.withOpacity(.4), width: .5),
-        boxShadow: [
-          BoxShadow(
-              offset: const Offset(0, 6),
-              color: lightGrey.withOpacity(.1),
-              blurRadius: 12)
-        ],
-        borderRadius: BorderRadius.circular(8),
-      ),
-      padding: const EdgeInsets.all(16),
-      margin: const EdgeInsets.only(bottom: 30),
-      child: SizedBox(
-        height: (56 * 7) + 40,
-        child: FutureBuilder<List<DocumentSnapshot>>(
-          future: firebaseData(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: Lottie.asset('assets/lottie/animation_loading.json',
-                    width: 100, height: 100),
-              );
-            } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            } else if (snapshot.data?.isEmpty ?? true) {
-              return Center(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Lottie.asset('assets/lottie/animation_loj8u1uc.json',
-                      height: 200, width: 200),
-                  Text('No data yet.'),
-                ],
-              ));
-            } else {
-              return DataTable2(
-                columnSpacing: 5,
-                dataRowHeight: 40,
-                headingRowHeight: 30,
-                horizontalMargin: 12,
-                minWidth: 600,
-                columns: const [
-                  DataColumn2(
-                    label: Text("Title",
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    size: ColumnSize.L,
-                  ),
-                  DataColumn(
-                      label: Text(
-                    'Descriptions',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  DataColumn(
-                      label: Text(
-                    'To',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  DataColumn(
-                    label: Text(
-                      'Date',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(''),
-                  ),
-                ],
-                rows: snapshot.data!.map((doc) {
-                  Map<String, dynamic> data =
-                      doc.data() as Map<String, dynamic>;
-                  String date = "${data['date']}, ${data['time']}";
-                  return DataRow(
-                    cells: [
-                      DataCell(
-                          Text(data['title'], style: TextStyle(fontSize: 12))),
-                      DataCell(Tooltip(
-                          message: data['descriptions'],
-                          child: Text(data['descriptions'],
-                              style: TextStyle(fontSize: 12)))),
-                      DataCell(
-                          Text(data['filter'], style: TextStyle(fontSize: 12))),
-                      DataCell(Text(date, style: TextStyle(fontSize: 12))),
-                      DataCell(Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Tooltip(
-                            message: 'More',
-                            child: GestureDetector(
-                              onTap: () {},
-                              child: Image.asset(
-                                  'assets/images/icons8-more.png',
-                                  height: 25,
-                                  width: 25),
-                            ),
+    return isLoading
+        ? Lottie.asset('assets/lottie/animation_loading.json',
+            width: 100, height: 100)
+        : Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: active.withOpacity(.4), width: .5),
+              boxShadow: [
+                BoxShadow(
+                    offset: const Offset(0, 6),
+                    color: lightGrey.withOpacity(.1),
+                    blurRadius: 12)
+              ],
+              borderRadius: BorderRadius.circular(8),
+            ),
+            padding: const EdgeInsets.all(16),
+            margin: const EdgeInsets.only(bottom: 30),
+            child: SizedBox(
+              height: (56 * 7) + 40,
+              child: FutureBuilder<List<DocumentSnapshot>>(
+                future: firebaseData(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: Lottie.asset(
+                          'assets/lottie/animation_loading.json',
+                          width: 100,
+                          height: 100),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else if (snapshot.data?.isEmpty ?? true) {
+                    return Center(
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Lottie.asset('assets/lottie/animation_loj8u1uc.json',
+                            height: 200, width: 200),
+                        Text('No data yet.'),
+                      ],
+                    ));
+                  } else {
+                    return DataTable2(
+                      columnSpacing: 5,
+                      dataRowHeight: 40,
+                      headingRowHeight: 30,
+                      horizontalMargin: 12,
+                      minWidth: 600,
+                      columns: const [
+                        DataColumn2(
+                          label: Text("Title",
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                          size: ColumnSize.L,
+                        ),
+                        DataColumn(
+                            label: Text(
+                          'Descriptions',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'To',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                        DataColumn(
+                          label: Text(
+                            'Date',
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(width: 5),
-                          Tooltip(
-                            message: 'Delete',
-                            child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  isLoading = true;
-                                });
-                                try {
-
-                                  fbStore.collection('NewsUpdate').doc(data['id']).delete();
-                                  print('Deleted');
-                                } catch (e) {
-                                  print(e);
-                                }
-                                setState(() {
-                                  isLoading = false;
-                                });
-                              },
-                              child: Image.asset(
-                                  'assets/images/icons8-delete.png',
-                                  height: 25,
-                                  width: 25),
-                            ),
-                          ),
-                          SizedBox(width: 5),
-                          Tooltip(
-                            message: 'Preview',
-                            child: GestureDetector(
-                              onTap: () {},
-                              child: Image.asset(
-                                  'assets/images/icons8-preview.png',
-                                  height: 25,
-                                  width: 25),
-                            ),
-                          ),
-                        ],
-                      )),
-                    ],
-                  );
-                }).toList(),
-              );
-            }
-          },
-        ),
-      ),
-    );
+                        ),
+                        DataColumn(
+                          label: Text(''),
+                        ),
+                      ],
+                      rows: snapshot.data!.map((doc) {
+                        Map<String, dynamic> data =
+                            doc.data() as Map<String, dynamic>;
+                        String date = "${data['date']}, ${data['time']}";
+                        return DataRow(
+                          cells: [
+                            DataCell(Text(data['title'],
+                                style: TextStyle(fontSize: 12))),
+                            DataCell(Tooltip(
+                                message: data['descriptions'],
+                                child: Text(data['descriptions'],
+                                    style: TextStyle(fontSize: 12)))),
+                            DataCell(Text(data['filter'],
+                                style: TextStyle(fontSize: 12))),
+                            DataCell(
+                                Text(date, style: TextStyle(fontSize: 12))),
+                            DataCell(Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Tooltip(
+                                  message: 'More',
+                                  child: GestureDetector(
+                                    onTap: () {},
+                                    child: Image.asset(
+                                        'assets/images/icons8-more.png',
+                                        height: 25,
+                                        width: 25),
+                                  ),
+                                ),
+                                SizedBox(width: 5),
+                                Tooltip(
+                                  message: 'Delete',
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text('Delete'),
+                                            content: Text(
+                                                'Are you sure you want delete this data?'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text('Cancel'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    isLoading = true;
+                                                  });
+                                                  try {
+                                                    fbStore
+                                                        .collection(
+                                                            'NewsUpdate')
+                                                        .doc(data['id'])
+                                                        .delete();
+                                                    print('Deleted');
+                                                  } catch (e) {
+                                                    print(e);
+                                                  }
+                                                  setState(() {
+                                                    isLoading = false;
+                                                  });
+                                                   Navigator.pop(context);
+                                                },
+                                                child: Text('Delete'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Image.asset(
+                                        'assets/images/icons8-delete.png',
+                                        height: 25,
+                                        width: 25),
+                                  ),
+                                ),
+                                SizedBox(width: 5),
+                                Tooltip(
+                                  message: 'Preview',
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text('Preview'),
+                                            content: Text(
+                                                '--------'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {},
+                                                child: Text('-----'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {},
+                                                child: Text('----'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Image.asset(
+                                        'assets/images/icons8-preview.png',
+                                        height: 25,
+                                        width: 25),
+                                  ),
+                                ),
+                              ],
+                            )),
+                          ],
+                        );
+                      }).toList(),
+                    );
+                  }
+                },
+              ),
+            ),
+          );
   }
-
 }
-

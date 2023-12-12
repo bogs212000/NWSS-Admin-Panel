@@ -31,6 +31,7 @@ class _OverviewPageState extends State<OverviewPage> {
     fetchTermsConditions(setState);
     fetchGuide(setState);
     fetchPackageInfo(setState);
+    fetchCurrentWaterPrice(setState);
   }
 
   @override
@@ -57,7 +58,7 @@ class _OverviewPageState extends State<OverviewPage> {
               //   if (ResponsiveWidget.isCustomSize(context)) const OverviewCardsMediumScreen() else const OverviewCardsLargeScreen()
               // else
               //   const OverviewCardsSmallScreen(),
-              if (!ResponsiveWidget.isSmallScreen(context)) const RevenueSectionLarge() else const RevenueSectionSmall(),
+              if (!ResponsiveWidget.isSmallScreen(context)) RevenueSectionLarge() else const RevenueSectionSmall(),
               AvailableDriversTable(),
             ],
           ),

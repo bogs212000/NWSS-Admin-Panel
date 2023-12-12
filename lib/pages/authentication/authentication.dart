@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:nwss_admin/constants/controllers.dart';
 import 'package:nwss_admin/constants/style.dart';
 import 'package:nwss_admin/pages/authentication/sign_up.dart';
+import 'package:nwss_admin/pages/loading.dart';
 import 'package:nwss_admin/widgets/custom_text.dart';
 
 class AuthenticationPage extends StatefulWidget {
@@ -18,13 +19,13 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
   final TextEditingController emailController = TextEditingController();
 
   final TextEditingController passwordController = TextEditingController();
-
+  bool isLoading = false;
   bool isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: isLoading ? const Loading() : Center(
         child: Container(
           constraints: const BoxConstraints(maxWidth: 400),
           padding: const EdgeInsets.all(24),
@@ -127,12 +128,21 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
               ),
               InkWell(
                 onTap: () async {
+                  setState(() {
+                    isLoading = true;
+                  });
                   try {
                     await fbAuth.signInWithEmailAndPassword(
                       email: emailController.text.trim().toString(),
                       password: passwordController.text.trim().toString(),
                     );
+                    setState(() {
+                      isLoading = false;
+                    });
                   } catch (e) {
+                    setState(() {
+                      isLoading = false;
+                    });
                     print(e);
                   }
                 },

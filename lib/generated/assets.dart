@@ -23,5 +23,7 @@ class Assets {
   static const String lottieAnimationAnimeGirl = 'assets/lottie/animation_anime_girl.json';
   static const String lottieAnimationLoading = 'assets/lottie/animation_loading.json';
   static const String lottieAnimationLoj8u1uc = 'assets/lottie/animation_loj8u1uc.json';
+  static const String lottiePayAnimation = 'assets/lottie/pay_animation.json';
+  static const String lottieSuccess = 'assets/lottie/success.json';
 
 }
