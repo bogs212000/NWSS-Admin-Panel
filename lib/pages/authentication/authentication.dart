@@ -166,7 +166,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
               Row(
                 children: [
                   const Text("Do not have admin credentials? ",
-                      style: TextStyle(color: Colors.black)),
+                      style: TextStyle(color: Colors.black, fontSize: 12)),
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(_toSignUp());

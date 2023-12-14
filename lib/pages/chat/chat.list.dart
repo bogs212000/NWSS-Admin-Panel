@@ -89,6 +89,7 @@ class _ChatLIstState extends State<ChatLIst> {
                           onTap: () {
                             setState(() {
                               userFullname = data['fullname'].toString();
+                              userChatEmail = data['userEmail'].toString();
                             });
                             Navigator.push(
                               context,
