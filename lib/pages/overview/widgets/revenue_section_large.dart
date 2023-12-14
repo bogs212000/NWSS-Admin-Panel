@@ -7,8 +7,10 @@ import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nwss_admin/constants/controllers.dart';
 import 'package:nwss_admin/constants/style.dart';
+import 'package:nwss_admin/functions/fetch.dart';
 import 'package:nwss_admin/helpers/reponsiveness.dart';
 import 'package:nwss_admin/pages/overview/widgets/bar_chart.dart';
+import 'package:nwss_admin/pages/overview/widgets/price_rate_log.dart';
 import 'package:nwss_admin/widgets/custom_text.dart';
 
 class RevenueSectionLarge extends StatefulWidget {
@@ -174,26 +176,58 @@ class _RevenueSectionLargeState extends State<RevenueSectionLarge> {
                           weight: FontWeight.bold,
                           color: lightGrey,
                         ),
-                        CustomText(
-                          text: currentWaterPrice == null
-                              ? "Fetching date, please reload the page"
-                              : currentWaterPrice.toString(),
-                          size: 13,
-                          weight: FontWeight.bold,
-                          color: Colors.blue,
+                        StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection('price')
+                              .doc('price')
+                              .snapshots(),
+                          // Use .snapshots() to get a real-time stream
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              // Data is still loading
+                              return CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              // Error occurred
+                              return Text('Error: ${snapshot.error}');
+                            } else {
+                              // Data loaded successfully
+                              final data = snapshot.data;
+                              // Process and display your data here
+                              return CustomText(
+                                text: data == null
+                                    ? "Fetching data, please reload the page"
+                                    : data['current'].toString(),
+                                // Replace 'yourField' with the actual field name
+                                size: 13,
+                                weight: FontWeight.bold,
+                                color: Colors.blue,
+                              );
+                            }
+                          },
                         ),
                         Spacer(),
-                        const CustomText(
-                          text: "Change  ",
-                          size: 12,
-                          weight: FontWeight.bold,
-                          color: lightGrey,
-                        ),
-                        GestureDetector(
+                        Tooltip(
+                          message: 'Change Price',
+                          child: GestureDetector(
                             onTap: () {
                               _showChangePrice(context);
                             },
-                            child: Icon(Icons.change_circle))
+                            child: Icon(Icons.change_circle),
+                          ),
+                        ),
+                        SizedBox(width: 5),
+                        Tooltip(
+                          message: 'Log',
+                          child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => PriceRateLog()),
+                                );
+                              },
+                              child: Icon(Icons.library_books_rounded)),
+                        )
                       ],
                     ),
                     SizedBox(width: 600, height: 200, child: SimpleBarChart()),
@@ -288,12 +322,11 @@ class _RevenueSectionLargeState extends State<RevenueSectionLarge> {
                                 // Customize this part to show the search results as needed
                                 return ListTile(
                                   title: GestureDetector(
-                                    onTap: (){
-                                      searchController.text = searchResults[index][
-                                      'name'];
+                                    onTap: () {
+                                      searchController.text =
+                                          searchResults[index]['name'];
                                     },
-                                    child: Text(searchResults[index][
-                                        'name']),
+                                    child: Text(searchResults[index]['name']),
                                   ), // Replace with the actual field name// Replace with the actual field name
                                   // Add more widgets as needed
                                 );
@@ -341,10 +374,9 @@ class _RevenueSectionLargeState extends State<RevenueSectionLarge> {
                     'createdAt': now,
                     'changed': upDown
                   });
+                  fetchCurrentWaterPrice(setState);
 
-                  // Close the loading indicator
                   Navigator.of(context, rootNavigator: true).pop();
-
                   _showSuccess(context);
                 } catch (e) {
                   // Handle errors and show an error message

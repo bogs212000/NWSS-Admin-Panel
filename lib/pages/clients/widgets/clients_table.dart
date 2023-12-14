@@ -109,7 +109,7 @@ class ClientsTable extends StatelessWidget {
                       doc.data() as Map<String, dynamic>;
                   return DataRow(
                     cells: [
-                      DataCell(CustomText(text: data['name'])),
+                      DataCell(CustomText(text: data['fullname'])),
                       DataCell(CustomText(text: data['balance_to_pay'])),
                       DataCell(CustomText(text: data['address'])),
                       DataCell(CustomText(text: data['contactNo'])),

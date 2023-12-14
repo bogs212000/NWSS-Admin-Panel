@@ -50,6 +50,9 @@ dependencies:
   flutter_animate: ^4.2.0+1
   package_info_plus: ^4.2.0
   avatars: ^3.0.2
+  shimmer: ^3.0.0
+  animations: ^2.0.8
+  flutter_staggered_animations: ^1.1.1
 
 dev_dependencies:
   flutter_test:
