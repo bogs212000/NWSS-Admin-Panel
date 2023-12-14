@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nwss_admin/constants/controllers.dart';
 import 'package:nwss_admin/pages/loading.dart';
 
 import '../../constants/style.dart';
@@ -19,6 +20,7 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController cpasswordController = TextEditingController();
   bool isLoading = false;
+  String role = 'admin';
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +77,7 @@ class _SignUpState extends State<SignUp> {
                       height: 15,
                     ),
                     TextField(
+                      controller: passwordController,
                       decoration: InputDecoration(
                         labelText: "Password",
                         hintText: "123456",
@@ -87,7 +90,7 @@ class _SignUpState extends State<SignUp> {
                       height: 15,
                     ),
                     TextField(
-                      controller: passwordController,
+                      controller: cpasswordController,
                       decoration: InputDecoration(
                         labelText: "Confirm Password",
                         hintText: "123456",
@@ -136,6 +139,10 @@ class _SignUpState extends State<SignUp> {
                               email: emailController.text.trim(),
                               password: passwordController.text,
                             );
+                            await fbStore.collection('admin').doc(emailController.text.toString()).set({
+                              'role': role,
+                              'email': emailController.text.trim().toString(),
+                            });
 
                             // The user has been successfully created
                             print("User created: ${userCredential.user?.uid}");

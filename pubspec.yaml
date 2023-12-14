@@ -49,6 +49,7 @@ dependencies:
   fl_chart: ^0.64.0
   flutter_animate: ^4.2.0+1
   package_info_plus: ^4.2.0
+  avatars: ^3.0.2
 
 dev_dependencies:
   flutter_test:

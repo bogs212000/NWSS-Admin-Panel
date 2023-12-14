@@ -23,6 +23,7 @@ class _RevenueSectionLargeState extends State<RevenueSectionLarge> {
   final TextEditingController priceController = TextEditingController();
   List<DocumentSnapshot> searchResults = [];
   String search = "";
+  String? upDown;
 
   @override
   void initState() {
@@ -308,9 +309,17 @@ class _RevenueSectionLargeState extends State<RevenueSectionLarge> {
             ),
             TextButton(
               onPressed: () async {
+                double newValue = double.tryParse(priceController.text) ?? 0.0;
+                if (currentWaterPrice! < newValue) {
+                  setState(() {
+                    upDown = "up";
+                  });
+                } else {
+                  setState(() {
+                    upDown = "down";
+                  });
+                }
                 try {
-                  double newValue =
-                      double.tryParse(priceController.text) ?? 0.0;
                   await fbStore
                       .collection('price')
                       .doc('price')
@@ -324,6 +333,7 @@ class _RevenueSectionLargeState extends State<RevenueSectionLarge> {
                     'price': newValue,
                     'date': formattedDate,
                     'createdAt': now,
+                    'changed': upDown
                   });
 
                   // Close the loading indicator
@@ -396,9 +406,17 @@ class _RevenueSectionLargeState extends State<RevenueSectionLarge> {
             ),
             TextButton(
               onPressed: () async {
+                double newValue = double.tryParse(priceController.text) ?? 0.0;
+                if (currentWaterPrice! < newValue) {
+                  setState(() {
+                    upDown = "up";
+                  });
+                } else {
+                  setState(() {
+                    upDown = "down";
+                  });
+                }
                 try {
-                  double newValue =
-                      double.tryParse(priceController.text) ?? 0.0;
                   await fbStore
                       .collection('price')
                       .doc('price')
@@ -412,6 +430,7 @@ class _RevenueSectionLargeState extends State<RevenueSectionLarge> {
                     'price': newValue,
                     'date': formattedDate,
                     'createdAt': now,
+                    'changed': upDown
                   });
 
                   // Close the loading indicator

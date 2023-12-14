@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nwss_admin/pages/chat/chat.list.dart';
 import 'package:nwss_admin/pages/clients/clients.dart';
 import 'package:nwss_admin/pages/control/control.page.dart';
 import 'package:nwss_admin/pages/drivers/drivers.dart';
@@ -6,6 +7,8 @@ import 'package:nwss_admin/pages/notifications/notifications.dart';
 import 'package:nwss_admin/pages/overview/overview.dart';
 import 'package:nwss_admin/pages/transactions/transactions.dart';
 import 'package:nwss_admin/routing/routes.dart';
+
+import '../pages/chat/chat.page.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -19,6 +22,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(NotificationsPage());
     case transactionsPageRoute:
       return _getPageRoute(TransactionPage());
+    case chatPageRoute:
+      return _getPageRoute(ChatLIst());
     default:
       return _getPageRoute(const ControlPage());
   }
