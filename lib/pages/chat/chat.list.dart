@@ -88,7 +88,7 @@ class _ChatLIstState extends State<ChatLIst> {
                         child: GestureDetector(
                           onTap: () {
                             setState(() {
-                              userChatEmail = data['userEmail'].toString();
+                              userFullname = data['fullname'].toString();
                             });
                             Navigator.push(
                               context,
@@ -119,7 +119,7 @@ class _ChatLIstState extends State<ChatLIst> {
                                       ),
                                       SizedBox(width: 5),
                                       Text(
-                                        data['userEmail'].toString(),
+                                        data['fullname'].toString(),
                                         maxLines: 1,
                                         softWrap: false,
                                         overflow: TextOverflow.ellipsis,

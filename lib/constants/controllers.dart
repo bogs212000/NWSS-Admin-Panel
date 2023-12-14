@@ -24,3 +24,4 @@ String formattedTime = DateFormat('h:mm a').format(now);
 String? packageInfo;
 String? dayNight = DateFormat('h').format(now);
 String? userChatEmail;
+String? userFullname;

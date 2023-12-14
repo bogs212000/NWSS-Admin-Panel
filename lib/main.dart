@@ -42,7 +42,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'Dashboard',
       routes: {
-        '/login': (context) => AuthenticationPage(),
+        '/login': (context) => AuthWrapper(),
         // Add other routes as needed
       },
       theme: ThemeData(

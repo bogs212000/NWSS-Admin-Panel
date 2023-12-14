@@ -287,8 +287,14 @@ class _RevenueSectionLargeState extends State<RevenueSectionLarge> {
                               itemBuilder: (context, index) {
                                 // Customize this part to show the search results as needed
                                 return ListTile(
-                                  title: Text(searchResults[index][
-                                      'name']), // Replace with the actual field name// Replace with the actual field name
+                                  title: GestureDetector(
+                                    onTap: (){
+                                      searchController.text = searchResults[index][
+                                      'name'];
+                                    },
+                                    child: Text(searchResults[index][
+                                        'name']),
+                                  ), // Replace with the actual field name// Replace with the actual field name
                                   // Add more widgets as needed
                                 );
                               },

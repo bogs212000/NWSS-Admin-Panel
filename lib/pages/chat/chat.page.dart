@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nwss_admin/constants/controllers.dart';
@@ -26,7 +25,11 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
-        title: Text(userChatEmail.toString()),
+        title: Row(
+          children: [
+            Text(userFullname.toString()),
+          ],
+        ),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         leading: GestureDetector(
