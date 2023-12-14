@@ -65,7 +65,7 @@ class _ChatLIstState extends State<ChatLIst> {
                   }
                   if (snapshot.data?.size == 0) {
                     return Center(
-                      child: Text('No Update yet!'),
+                      child: Text('No messages yet!'),
                     );
                   }
                   Row(children: const [

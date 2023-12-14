@@ -8,7 +8,6 @@ import 'package:nwss_admin/constants/style.dart';
 import 'package:nwss_admin/helpers/reponsiveness.dart';
 import 'package:nwss_admin/pages/overview/widgets/bar_chart.dart';
 import 'package:nwss_admin/pages/overview/widgets/price_rate_log.dart';
-import 'package:nwss_admin/pages/overview/widgets/revenue_info.dart';
 import 'package:nwss_admin/widgets/custom_text.dart';
 
 class RevenueSectionSmall extends StatefulWidget {
