@@ -26,6 +26,18 @@ Future<void> fetchMaintenance(Function setState) async {
   }
 }
 
+Future<void> fetchOnlinePay(Function setState) async {
+  try {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('App Settings')
+        .doc('Online Payment')
+        .get();
+    onlinePayment = snapshot.data()?['online_payment'];
+  } catch (e) {
+    // Handle errors
+  }
+}
+
 Future<void> fetchCurrentWaterPrice(Function setState) async {
   try {
     final snapshot = await FirebaseFirestore.instance
@@ -38,7 +50,17 @@ Future<void> fetchCurrentWaterPrice(Function setState) async {
   }
 }
 
-
+Future<void> fetchGcashNumber(Function setState) async {
+  try {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('App Settings')
+        .doc('Gcash')
+        .get();
+    gcashNum = snapshot.data()?['Number'];
+  } catch (e) {
+    // Handle errors
+  }
+}
 
 Future<void> fetchControl(Function setState) async {
   try {

@@ -6,8 +6,10 @@ import 'package:nwss_admin/constants/controllers.dart';
 import 'package:nwss_admin/helpers/reponsiveness.dart';
 import 'package:nwss_admin/pages/control/widgets/fb_link.dart';
 import 'package:nwss_admin/pages/control/widgets/force_update.dart';
+import 'package:nwss_admin/pages/control/widgets/gcash.number.dart';
 import 'package:nwss_admin/pages/control/widgets/guide.dart';
 import 'package:nwss_admin/pages/control/widgets/maintenance.dart';
+import 'package:nwss_admin/pages/control/widgets/online.payment.dart';
 import 'package:nwss_admin/pages/control/widgets/release.mode.dart';
 import 'package:nwss_admin/pages/control/widgets/terms_and_conditions.dart';
 import 'package:nwss_admin/widgets/custom_text.dart';
@@ -93,6 +95,11 @@ class _ControlPageState extends State<ControlPage> {
                             ),
                             Row(
                               children: [
+                                GcashNumber(),
+                              ],
+                            ),
+                            Row(
+                              children: [
                                 ReleaseMode(),
                               ],
                             ),
@@ -106,6 +113,11 @@ class _ControlPageState extends State<ControlPage> {
                                 ForceUpdate(),
                               ],
                             ),
+                            Row(
+                              children: [
+                                OnlinePayment(),
+                              ],
+                            ),
                             SizedBox(height: 10)
                           ],
                         )
@@ -116,12 +128,15 @@ class _ControlPageState extends State<ControlPage> {
                                 TermsAndConditions(),
                                 UserGuide(),
                                 Facebook(),
+                                GcashNumber(),
                               ],
                             ),
                           Row(children: [
                             ReleaseMode(),
                             Maintenance(),
                             ForceUpdate(),
+                            OnlinePayment()
+
 
                           ],)
                         ],

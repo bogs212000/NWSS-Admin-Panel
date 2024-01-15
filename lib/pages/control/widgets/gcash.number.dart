@@ -1,34 +1,23 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, unnecessary_import, prefer_const_literals_to_create_immutables
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nwss_admin/constants/controllers.dart';
 import 'package:nwss_admin/helpers/reponsiveness.dart';
 
-class TermsAndConditions extends StatefulWidget {
-  const TermsAndConditions({super.key});
+class GcashNumber extends StatefulWidget {
+  const GcashNumber({super.key});
 
   @override
-  State<TermsAndConditions> createState() => _TermsAndConditionsState();
+  State<GcashNumber> createState() => _GcashNumberState();
 }
 
-class _TermsAndConditionsState extends State<TermsAndConditions> {
-  final TextEditingController termsAndConditionsController =
-      TextEditingController();
+class _GcashNumberState extends State<GcashNumber> {
+  final TextEditingController gcashController = TextEditingController();
   bool isSaving = false;
   bool isTextFieldEmpty = true;
-
-  @override
-  void initState() {
-    super.initState();
-
-    termsAndConditionsController.addListener(() {
-      setState(() {
-        isTextFieldEmpty = termsAndConditionsController.text.isEmpty;
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,46 +45,33 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset(
-                      'assets/images/icons8-terms-and-conditions-96.png',
-                      scale: 2),
+                  Image.asset('assets/images/gcash_icon.png', scale: 2),
                   SizedBox(width: 10),
-                  Text('Terms and Conditions', style: TextStyle(fontSize: 10),),
+                  Text('Gcash Number', style: TextStyle(fontSize: 12),),
                   Spacer(),
-                  GestureDetector(
-                      onTap: () {},
-                      child: Icon(Icons.arrow_circle_right_outlined,
-                          color: Colors.grey)),
+                  Tooltip(
+                    message: '$gcashNum',
+                    child: GestureDetector(
+                        onTap: () {},
+                        child: Icon(Icons.numbers,
+                            color: Colors.grey)),
+                  ),
                 ],
               ),
               Spacer(),
               Row(
                 children: [
-                  Tooltip(
-                    message: termsConditionsLink,
-                    child: Column(
-                      children: [
-                        Icon(Icons.online_prediction, color: Colors.green),
-                        Text(
-                          'Current link',
-                          style: TextStyle(fontSize: 10),
-                        )
-                      ],
-                    ),
-                  ),
                   SizedBox(width: 10),
                   Expanded(
                     child: SizedBox(
                       height: 40,
-                      width: ResponsiveWidget.isSmallScreen(context) ||
-                              ResponsiveWidget.isCustomSize(context)
-                          ? 100
-                          : 120,
+                      width:
+                          ResponsiveWidget.isSmallScreen(context) ? 100 : 120,
                       child: TextField(
-                        controller: termsAndConditionsController,
+                        controller: gcashController,
                         decoration: InputDecoration(
-                          labelText: "Link",
-                          hintText: "https://.....",
+                          labelText: "Gcash Number",
+                          hintText: "+63 9xxxxxxxxx",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -120,13 +96,12 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
                             try {
                               await fbStore
                                   .collection('App Settings')
-                                  .doc('Terms and conditions')
+                                  .doc('Gcash')
                                   .update({
-                                'Link': termsAndConditionsController.text
-                                    .toString()
-                                    .trim(),
+                                'Number': gcashController.text.trim(),
                               });
-                              termsAndConditionsController.clear();
+                              gcashController.clear();
+                              _showDialog();
                             } catch (e) {
                               await showDialog(
                                 context: context,
@@ -173,7 +148,33 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
         ),
       ),
     )
-        .animate(delay: Duration(milliseconds: 100))
-        .fadeIn(duration: 100.ms, curve: Curves.easeIn);
+        .animate(delay: Duration(milliseconds: 200))
+        .fadeIn(duration: 200.ms, curve: Curves.easeIn);
+  }
+
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Saved'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Saved Successfully!'),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

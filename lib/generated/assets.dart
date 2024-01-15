@@ -8,6 +8,7 @@ class Assets {
   static const String iconsLogo = 'assets/icons/logo.png';
   static const String iconsWaterDrop = 'assets/icons/water_drop.png';
   static const String imagesError = 'assets/images/error.png';
+  static const String imagesGcashIcon = 'assets/images/gcash_icon.png';
   static const String imagesIcons8Delete = 'assets/images/icons8-delete.png';
   static const String imagesIcons8Engineering96 = 'assets/images/icons8-engineering-96.png';
   static const String imagesIcons8Facebook96 = 'assets/images/icons8-facebook-96.png';

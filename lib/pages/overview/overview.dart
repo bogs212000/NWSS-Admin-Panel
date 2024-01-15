@@ -32,6 +32,8 @@ class _OverviewPageState extends State<OverviewPage> {
     fetchGuide(setState);
     fetchPackageInfo(setState);
     fetchCurrentWaterPrice(setState);
+    fetchOnlinePay(setState);
+    fetchGcashNumber(setState);
   }
 
   @override

@@ -58,7 +58,7 @@ class _FacebookState extends State<Facebook> {
                 children: [
                   Image.asset('assets/images/icons8-facebook-96.png', scale: 2),
                   SizedBox(width: 10),
-                  Text('Facebook Page'),
+                  Text('Facebook Page', style: TextStyle(fontSize: 12),),
                   Spacer(),
                   GestureDetector(
                       onTap: () {},
@@ -82,23 +82,25 @@ class _FacebookState extends State<Facebook> {
                     ),
                   ),
                   SizedBox(width: 10),
-                  SizedBox(
-                    height: 40,
-                    width: ResponsiveWidget.isSmallScreen(context) ? 100 : 120,
-                    child: TextField(
-                      controller: facebookController,
-                      decoration: InputDecoration(
-                        labelText: "Link",
-                        hintText: "https://.....",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                  Expanded(
+                    child: SizedBox(
+                      height: 40,
+                      width: ResponsiveWidget.isSmallScreen(context) ? 100 : 120,
+                      child: TextField(
+                        controller: facebookController,
+                        decoration: InputDecoration(
+                          labelText: "Link",
+                          hintText: "https://.....",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
+                        onChanged: (text) {
+                          setState(() {
+                            isTextFieldEmpty = text.isEmpty;
+                          });
+                        },
                       ),
-                      onChanged: (text) {
-                        setState(() {
-                          isTextFieldEmpty = text.isEmpty;
-                        });
-                      },
                     ),
                   ),
                   SizedBox(width: 20),
@@ -161,6 +163,7 @@ class _FacebookState extends State<Facebook> {
                   ),
                 ],
               ),
+
             ],
           ),
         ),

@@ -47,7 +47,7 @@ class _UserGuideState extends State<UserGuide> {
                 children: [
                   Image.asset('assets/images/icons8-guide-96.png', scale: 2),
                   SizedBox(width: 10),
-                  Text('Users Guide'),
+                  Text('Users Guide', style: TextStyle(fontSize: 12),),
                   Spacer(),
                   GestureDetector(
                       onTap: () {},
@@ -71,84 +71,84 @@ class _UserGuideState extends State<UserGuide> {
                     ),
                   ),
                   SizedBox(width: 10),
-                  SizedBox(
-                    height: 40,
-                    width: ResponsiveWidget.isSmallScreen(context) ? 100 : 120,
-                    child: TextField(
-                      controller: guideController,
-                      decoration: InputDecoration(
-                        labelText: "Link",
-                        hintText: "https://.....",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                  Expanded(
+                    child: SizedBox(
+                      height: 40,
+                      width: ResponsiveWidget.isSmallScreen(context) ? 100 : 120,
+                      child: TextField(
+                        controller: guideController,
+                        decoration: InputDecoration(
+                          labelText: "Link",
+                          hintText: "https://.....",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
+                        onChanged: (text) {
+                          setState(() {
+                            isTextFieldEmpty = text.isEmpty;
+                          });
+                        },
                       ),
-                      onChanged: (text) {
-                        setState(() {
-                          isTextFieldEmpty = text.isEmpty;
-                        });
-                      },
                     ),
                   ),
                   SizedBox(width: 20),
                   ElevatedButton(
-                    onPressed: isTextFieldEmpty || isSaving
-                        ? null
-                        : () async {
-                            setState(() {
-                              isSaving = true;
-                            });
+                    onPressed: isTextFieldEmpty || isSaving ? null : () async {
+                      setState(() {
+                        isSaving = true;
+                      });
 
-                            try {
-                              await fbStore
-                                  .collection('App Settings')
-                                  .doc('Users Guide')
-                                  .update({
-                                'Link': guideController.text.toString().trim(),
-                              });
-                              guideController.clear();
-                              _showDialog();
-                            } catch (e) {
-                              await showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Text('Error'),
-                                    content: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                            'An error occurred. Please try again later.'),
-                                        // You can add more error information here if needed.
-                                      ],
-                                    ),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context)
-                                              .pop(); // Close the dialog
-                                        },
-                                        child: Text('OK'),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            } finally {
-                              setState(() {
-                                isSaving = false;
-                              });
-                            }
+                      try {
+                        await fbStore
+                            .collection('App Settings')
+                            .doc('Users Guide')
+                            .update({
+                          'Link': guideController.text.toString().trim(),
+                        });
+                        guideController.clear();
+                        _showDialog();
+                      } catch (e) {
+                        await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text('Error'),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      'An error occurred. Please try again later.'),
+                                  // You can add more error information here if needed.
+                                ],
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pop(); // Close the dialog
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            );
                           },
+                        );
+                      } finally {
+                        setState(() {
+                          isSaving = false;
+                        });
+                      }
+                    },
                     child: isSaving
                         ? Lottie.asset('assets/lottie/animation_loading.json',
-                            width: 50, height: 50)
+                        width: 50, height: 50)
                         : Text('Save'),
                   ),
                 ],
               ),
+
             ],
           ),
         ),
