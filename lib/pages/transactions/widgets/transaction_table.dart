@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_const_constructors
-import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nwss_admin/constants/style.dart';
-import 'package:nwss_admin/widgets/custom_text.dart';
+
 
 import '../../loading.dart';
 
@@ -20,6 +20,33 @@ class TransactionTable extends StatefulWidget {
 }
 
 class _TransactionTableState extends State<TransactionTable> {
+
+  List<dynamic> payments = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchPayments();
+  }
+
+  Future<void> fetchPayments() async {
+    final response = await http.get(
+      Uri.parse('https://api.paymongo.com/v1/payments'),
+      headers: {
+        'Authorization': 'sk_test_2fsdysiyphUYGPJomZrbX17d',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      setState(() {
+        payments = json.decode(response.body)['data'];
+      });
+    } else {
+      throw Exception('Failed to load payments');
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     bool loading = false;
@@ -68,107 +95,117 @@ class _TransactionTableState extends State<TransactionTable> {
                 ],
               ));
             } else {
-              return DataTable2(
-                columnSpacing: 5,
-                dataRowHeight: 40,
-                headingRowHeight: 30,
-                horizontalMargin: 5,
-                minWidth: 600,
-                columns: const [
-                  DataColumn2(
-                    label: Text(
-                      "name",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    size: ColumnSize.L,
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Purpose',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Amount',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Receipt',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      '',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
-                rows: snapshot.data!.map((doc) {
-                  Map<String, dynamic> data =
-                      doc.data() as Map<String, dynamic>;
-                  return DataRow(
-                    cells: [
-                      DataCell(CustomText(text: data['name'])),
-                      DataCell(CustomText(text: data['modeOfPayment'])),
-                      DataCell(
-                        CustomText(text: (data['amount'] as double).toString()),
-                      ),
-                      DataCell(Row(
-                        children: [
-                          CachedNetworkImage(
-                            height: 50,
-                            width: 50,
-                            imageUrl: data['ReceiptUrl'],
-                            placeholder: (context, url) =>
-                                CircularProgressIndicator(),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                          ),
-                        ],
-                      )),
-                      DataCell(Row(
-                        children: [
-                          data['confirmed'] == false
-                              ? SizedBox(
-                                  width: 100,
-                                  child: ElevatedButton(
-                                      onPressed: () async {
-                                      setState(() {
-                                        loading = true;
-                                      });
-                                        await FirebaseFirestore.instance
-                                            .collection("Accounts")
-                                            .doc(data['account_id'])
-                                            .collection("bills")
-                                            .doc("2023")
-                                            .collection("month")
-                                            .doc(data['month'])
-                                            .update({
-                                          "bills": 0.0,
-                                          "paid?": false,
-                                        });
-                                        await FirebaseFirestore.instance
-                                            .collection("transactions")
-                                            .doc(data['doc_id'])
-                                            .update({
-                                          'confirmed': true,
-                                        });
-                                      setState(() {
-                                        loading = false;
-                                      });
-                                      },
-                                      child: Text('Confirm')))
-                              : SizedBox()
-                        ],
-                      )),
-                    ],
+              return ListView.builder(
+                itemCount: payments.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text('Payment ID: ${payments[index]['id']}'),
+                    subtitle: Text('Amount: ${payments[index]['attributes']['amount']}'),
                   );
-                }).toList(),
+                },
               );
+
+              //   DataTable2(
+              //   columnSpacing: 5,
+              //   dataRowHeight: 40,
+              //   headingRowHeight: 30,
+              //   horizontalMargin: 5,
+              //   minWidth: 600,
+              //   columns: const [
+              //     DataColumn2(
+              //       label: Text(
+              //         "name",
+              //         style: TextStyle(fontWeight: FontWeight.bold),
+              //       ),
+              //       size: ColumnSize.L,
+              //     ),
+              //     DataColumn(
+              //       label: Text(
+              //         'Purpose',
+              //         style: TextStyle(fontWeight: FontWeight.bold),
+              //       ),
+              //     ),
+              //     DataColumn(
+              //       label: Text(
+              //         'Amount',
+              //         style: TextStyle(fontWeight: FontWeight.bold),
+              //       ),
+              //     ),
+              //     DataColumn(
+              //       label: Text(
+              //         'Receipt',
+              //         style: TextStyle(fontWeight: FontWeight.bold),
+              //       ),
+              //     ),
+              //     DataColumn(
+              //       label: Text(
+              //         '',
+              //         style: TextStyle(fontWeight: FontWeight.bold),
+              //       ),
+              //     ),
+              //   ],
+              //   rows: snapshot.data!.map((doc) {
+              //     Map<String, dynamic> data =
+              //         doc.data() as Map<String, dynamic>;
+              //     return DataRow(
+              //       cells: [
+              //         DataCell(CustomText(text: data['name'])),
+              //         DataCell(CustomText(text: data['modeOfPayment'])),
+              //         DataCell(
+              //           CustomText(text: (data['amount'] as double).toString()),
+              //         ),
+              //         DataCell(Row(
+              //           children: [
+              //             CachedNetworkImage(
+              //               height: 50,
+              //               width: 50,
+              //               imageUrl: data['ReceiptUrl'],
+              //               placeholder: (context, url) =>
+              //                   CircularProgressIndicator(),
+              //               errorWidget: (context, url, error) =>
+              //                   Icon(Icons.error),
+              //             ),
+              //           ],
+              //         )),
+              //         DataCell(Row(
+              //           children: [
+              //             data['confirmed'] == false
+              //                 ? SizedBox(
+              //                     width: 100,
+              //                     child: ElevatedButton(
+              //                         onPressed: () async {
+              //                         setState(() {
+              //                           loading = true;
+              //                         });
+              //                           await FirebaseFirestore.instance
+              //                               .collection("Accounts")
+              //                               .doc(data['account_id'])
+              //                               .collection("bills")
+              //                               .doc("2023")
+              //                               .collection("month")
+              //                               .doc(data['month'])
+              //                               .update({
+              //                             "bills": 0.0,
+              //                             "paid?": false,
+              //                           });
+              //                           await FirebaseFirestore.instance
+              //                               .collection("transactions")
+              //                               .doc(data['doc_id'])
+              //                               .update({
+              //                             'confirmed': true,
+              //                           });
+              //                         setState(() {
+              //                           loading = false;
+              //                         });
+              //                         },
+              //                         child: Text('Confirm')))
+              //                 : SizedBox()
+              //           ],
+              //         )),
+              //       ],
+              //     );
+              //   }).toList(),
+              // );
             }
           },
         ),
