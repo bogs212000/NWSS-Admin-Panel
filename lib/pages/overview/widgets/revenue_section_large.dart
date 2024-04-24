@@ -129,8 +129,7 @@ class _RevenueSectionLargeState extends State<RevenueSectionLarge> {
                           _showManualPay(context);
                         },
                         style: ElevatedButton.styleFrom(
-                          onPrimary: Colors.white,
-                          onSurface: Colors.grey,
+                          foregroundColor: Colors.white, disabledForegroundColor: Colors.grey.withOpacity(0.38), disabledBackgroundColor: Colors.grey.withOpacity(0.12),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),

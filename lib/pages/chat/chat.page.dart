@@ -115,9 +115,7 @@ class _ChatPageState extends State<ChatPage> {
                     _sendMessage(date, nowChat.toString());
                   },
                   style: ElevatedButton.styleFrom(
-                    onPrimary: Colors.white,
-                    primary: Colors.blue,
-                    onSurface: Colors.grey,
+                    foregroundColor: Colors.white, backgroundColor: Colors.blue, disabledForegroundColor: Colors.grey.withOpacity(0.38), disabledBackgroundColor: Colors.grey.withOpacity(0.12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
