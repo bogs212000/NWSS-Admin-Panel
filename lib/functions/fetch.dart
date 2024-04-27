@@ -2,6 +2,37 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:nwss_admin/constants/controllers.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+double totalAmountBalance = 0.0;
+
+Future<void> calculateTotalAmount(Function setState) async {
+  double totalAmount = 0;
+
+  // Query the collection to get all documents
+  QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
+      .instance
+      .collection("biils")
+      .where('paid?', isEqualTo: false)
+      .where('clientId', isEqualTo: accountID)
+      .get();
+
+  // Iterate through the documents and sum up the amounts
+  for (QueryDocumentSnapshot<Map<String, dynamic>> document
+  in querySnapshot.docs) {
+    // Check if the document data contains the 'amount' key
+    if (document.data().containsKey('billAmount')) {
+      // Get the 'amount' field from the document data and add it to the total
+      totalAmount += (document.data()['billAmount'] as num).toDouble();
+    }
+  }
+
+  // Print the total amount
+  print('Total amount: $totalAmount');
+
+  setState(() {
+    totalAmountBalance = totalAmount;
+  });
+}
+
 Future<void> fetchRelease(Function setState) async {
   try {
     final snapshot = await FirebaseFirestore.instance

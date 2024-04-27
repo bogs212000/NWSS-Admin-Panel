@@ -54,7 +54,6 @@ class _TransactionTableState extends State<TransactionTable> {
     Future<List<DocumentSnapshot>> firebaseData() async {
       QuerySnapshot querySnapshot = await _firestore
           .collection('clientsPayment')
-          .where('confirmed?', isEqualTo: false)
           .get();
       return querySnapshot.docs;
     }
@@ -177,21 +176,28 @@ class _TransactionTableState extends State<TransactionTable> {
                                               setState(() {
                                                 loading = true;
                                               });
-                                              await FirebaseFirestore.instance
-                                                  .collection("biils")
-                                                  .doc(data['docId'])
-                                                  .update({
-                                                "paid?": true,
-                                              });
-                                              await FirebaseFirestore.instance
-                                                  .collection("clientsPayment")
-                                                  .doc(data['gcashRefNo'])
-                                                  .update({
-                                                'confirmed?': true,
-                                              });
-                                              setState(() {
-                                                loading = false;
-                                              });
+                                              try{
+                                                await FirebaseFirestore.instance
+                                                    .collection("biils")
+                                                    .doc(data['paymentId'])
+                                                    .update({
+                                                  "paid?": true,
+                                                });
+                                                await FirebaseFirestore.instance
+                                                    .collection("clientsPayment")
+                                                    .doc(data['gcashRefNo'])
+                                                    .update({
+                                                  'confirmed?': true,
+                                                });
+                                                setState(() {
+                                                  loading = false;
+                                                });
+                                              } catch(e){
+                                                setState(() {
+                                                  loading = false;
+                                                });
+                                                print(e);}
+
                                             },
                                             child: Text('Confirm')))
                                     : SizedBox()

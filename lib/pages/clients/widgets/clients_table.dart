@@ -6,15 +6,25 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nwss_admin/constants/style.dart';
 import 'package:nwss_admin/widgets/custom_text.dart';
+import 'package:velocity_x/velocity_x.dart';
+
+import '../../../constants/controllers.dart';
+import '../../../functions/fetch.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 /// Example without datasource
-class ClientsTable extends StatelessWidget {
+class ClientsTable extends StatefulWidget {
   const ClientsTable({super.key});
 
   @override
+  State<ClientsTable> createState() => _ClientsTableState();
+}
+
+class _ClientsTableState extends State<ClientsTable> {
+  @override
   Widget build(BuildContext context) {
+
     Future<List<DocumentSnapshot>> firebaseData() async {
       QuerySnapshot querySnapshot = await _firestore.collection('user').get();
       return querySnapshot.docs;
@@ -75,7 +85,7 @@ class ClientsTable extends StatelessWidget {
                   ),
                   DataColumn(
                     label: Text(
-                      'Balance',
+                      'Acc. ID',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -93,12 +103,6 @@ class ClientsTable extends StatelessWidget {
                   ),
                   DataColumn(
                     label: Text(
-                      'Water Consumption',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
                       '',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
@@ -110,22 +114,9 @@ class ClientsTable extends StatelessWidget {
                   return DataRow(
                     cells: [
                       DataCell(CustomText(text: data['fullname'])),
-                      DataCell(CustomText(text: data['balance_to_pay'])),
+                      DataCell(CustomText(text: data['account_ID'])),
                       DataCell(CustomText(text: data['address'])),
                       DataCell(CustomText(text: data['contactNo'])),
-                      DataCell(Row(
-
-                        children: [
-                          Text(
-                            data['water_usage'],
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            '  Cubic Meter ',
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ],
-                      )),
                       DataCell(Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -141,7 +132,15 @@ class ClientsTable extends StatelessWidget {
                           Tooltip(
                             message: 'Preview',
                             child: GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                setState(() {
+                                  accountID = data['account_ID'];
+                                });
+                                print(accountID);
+                                calculateTotalAmount(setState);
+                                _showDetails(context);
+
+                              },
                               child: Image.asset('assets/images/icons8-preview.png',
                                   height: 25, width: 25),
                             ),
@@ -158,4 +157,41 @@ class ClientsTable extends StatelessWidget {
       ),
     );
   }
+  void _showDetails(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            // Call calculateTotalAmount to fetch the latest total amount balance
+            calculateTotalAmount(setState);
+
+            return AlertDialog(
+              title: Text('Bills'),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Display the total amount balance
+                    Text('Total Amount Balance: $totalAmountBalance'),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    // Close the dialog
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Ok'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
 }
