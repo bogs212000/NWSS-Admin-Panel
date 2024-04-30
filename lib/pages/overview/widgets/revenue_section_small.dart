@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -39,7 +41,9 @@ class _RevenueSectionSmallState extends State<RevenueSectionSmall> {
   String dropdownvalue1 = 'ID1';
   String search = "";
   String? upDown;
-
+  String? cName;
+  String? cAdrress;
+  String? cContactNum;
   String? date;
   var item;
 
@@ -87,14 +91,37 @@ class _RevenueSectionSmallState extends State<RevenueSectionSmall> {
     });
   }
 
-  Future<void> checkIfTextExists(
-      String inputText, Function(bool) callback) async {
+  Future<void> checkIfTextExists(String inputText, Function(bool) callback) async {
     try {
-      var querySnapshot = await FirebaseFirestore.instance
-          .collection('Accounts')
-          .where('account_ID', isEqualTo: inputText)
-          .get();
-      callback(querySnapshot.docs.isNotEmpty);
+      // Get the Firestore instance and collection reference
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      CollectionReference accountsCollection = firestore.collection('Accounts');
+
+      // Query the 'Accounts' collection for the input text
+      QuerySnapshot accountsSnapshot = await accountsCollection.where('account_ID', isEqualTo: inputText).get();
+
+      // Invoke the callback with the result of whether the text exists in 'Accounts'
+      callback(accountsSnapshot.docs.isNotEmpty);
+
+      // Get the Firestore instance and collection reference for 'user'
+      CollectionReference userCollection = firestore.collection('user');
+
+      // Query the 'user' collection for the same input text
+      QuerySnapshot userSnapshot = await userCollection.where('account_ID', isEqualTo: inputText).get();
+
+      // Iterate through the documents in 'user' collection
+      userSnapshot.docs.forEach((doc) {
+        // Access the data of each document
+        Object? data = doc.data();
+        setState(() {
+          cName = doc['fullname'];
+          cContactNum = doc['contact_number'];
+          cAdrress = doc['address'];
+        });
+        print('${cName}, ${cContactNum}, ${cAdrress}');
+
+        print("User data: $data");
+      });
     } catch (error) {
       // Handle any errors that occurred
       print('Error while checking if input text exists: $error');
@@ -286,7 +313,7 @@ class _RevenueSectionSmallState extends State<RevenueSectionSmall> {
                   SizedBox(height: 10),
                   SizedBox(
                     height: 40,
-                    width: ResponsiveWidget.isSmallScreen(context) ? 100 : 250,
+                    width: ResponsiveWidget.isSmallScreen(context) ? 150 : 250,
                     child: TextField(
                       controller: priceController,
                       decoration: InputDecoration(
@@ -458,15 +485,38 @@ class _RevenueSectionSmallState extends State<RevenueSectionSmall> {
                         ),
                       )
                     else if (isTextExisting && account.text.isNotEmpty)
-                      Text(
-                        'Account exists',
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Colors.green,
-                        ),
+                      Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'Account exists',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: Colors.green,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            children: [
+                              cName != null ? '$cName'.text.make() : SizedBox(),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              cAdrress != null ? '$cAdrress'.text.make() : SizedBox(),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              cContactNum != null ? '$cContactNum'.text.make() : SizedBox(),
+                            ],
+                          ),
+                        ],
                       ),
-                    SizedBox(height: 10),
-                    Text(nameController.text),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -619,15 +669,38 @@ class _RevenueSectionSmallState extends State<RevenueSectionSmall> {
                         ),
                       )
                     else if (isTextExisting && account.text.isNotEmpty)
-                      Text(
-                        'Account exists',
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Colors.green,
-                        ),
+                      Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'Account exists',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: Colors.green,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            children: [
+                              cName != null ? '$cName'.text.make() : SizedBox(),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              cAdrress != null ? '$cAdrress'.text.make() : SizedBox(),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              cContactNum != null ? '$cContactNum'.text.make() : SizedBox(),
+                            ],
+                          ),
+                        ],
                       ),
                     SizedBox(height: 10),
-                    Text(nameController.text),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -655,7 +728,7 @@ class _RevenueSectionSmallState extends State<RevenueSectionSmall> {
                     SizedBox(
                       height: 40,
                       width:
-                          ResponsiveWidget.isSmallScreen(context) ? 100 : 250,
+                          ResponsiveWidget.isSmallScreen(context) ? 150 : 250,
                       child: TextField(
                         controller: amountController,
                         decoration: InputDecoration(
@@ -724,7 +797,7 @@ class _RevenueSectionSmallState extends State<RevenueSectionSmall> {
                       child: TextField(
                         controller: dueAmount,
                         decoration: InputDecoration(
-                          labelText: "Due Amount",
+                          labelText: "Penalty Amount",
                           hintText: "0.0",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -751,6 +824,9 @@ class _RevenueSectionSmallState extends State<RevenueSectionSmall> {
                     try {
                       await fbStore.collection("biils").doc(docId).set({
                         'docId': docId,
+                        'name': cName,
+                        'address': cAdrress,
+                            'contactNum': cContactNum,
                         'clientId': account.text,
                         'paid?': false,
                         'createdAt': DateTime.now(),

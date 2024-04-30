@@ -9,7 +9,7 @@ import 'package:nwss_admin/pages/notifications/widgets/notifications_data.dart';
 import 'package:nwss_admin/widgets/custom_text.dart';
 
 class NotificationsPage extends StatefulWidget {
-   NotificationsPage({Key? key}) : super(key: key);
+  NotificationsPage({Key? key}) : super(key: key);
 
   @override
   State<NotificationsPage> createState() => _NotificationsPageState();
@@ -24,47 +24,50 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoading == true ? Lottie.asset('assets/lottie/animation_loading.json', width: 100, height: 100): Column(
-      children: [
-        Obx(() {
-          return Row(
+    return isLoading == true
+        ? Lottie.asset('assets/lottie/animation_loading.json',
+            width: 100, height: 100)
+        : Column(
             children: [
-              Container(
-                margin: EdgeInsets.only(
-                  top: ResponsiveWidget.isSmallScreen(context) ? 56 : 6,
-                ),
-                child: CustomText(
-                  text: menuController.activeItem.value,
-                  size: 24,
-                  weight: FontWeight.bold,
-                ),
+              Obx(() {
+                return Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: ResponsiveWidget.isSmallScreen(context) ? 56 : 6,
+                      ),
+                      child: CustomText(
+                        text: menuController.activeItem.value,
+                        size: 24,
+                        weight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                );
+              }),
+              const SizedBox(height: 40),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      _showInput(context);
+                    },
+                    child: Row(
+                      children: const [
+                        Text("Add"),
+                        Icon(Icons.add),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              Expanded(
+                child: NotificationsTable(),
               ),
             ],
           );
-        }),
-        const SizedBox(height: 40),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                _showInput(context);
-              },
-              child: Row(
-                children: const [
-                  Text("Add"),
-                  Icon(Icons.add),
-                ],
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 10),
-        Expanded(
-          child: NotificationsTable(),
-        ),
-      ],
-    );
   }
 
   void _showInput(context) {
@@ -96,7 +99,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                         SizedBox(
                           height: 40,
                           width: ResponsiveWidget.isSmallScreen(context)
-                              ? 100
+                              ? 150
                               : 250,
                           child: TextField(
                             controller: titleController,
@@ -112,7 +115,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                         SizedBox(height: 10),
                         SizedBox(
                           width: ResponsiveWidget.isSmallScreen(context)
-                              ? 100
+                              ? 150
                               : 250,
                           child: TextField(
                             controller: descriptionsController,
@@ -165,32 +168,37 @@ class _NotificationsPageState extends State<NotificationsPage> {
                           width: 100, height: 100)
                       : ElevatedButton(
                           onPressed: () async {
-                            try {
-                              setState(() => isLoading = true);
+                            if (descriptionsController.text.isEmpty ||
+                                titleController.text.isEmpty) {
+                              try {
+                                setState(() => isLoading = true);
 
-                              final data = {
-                                'id': now.toString(),
-                                'createdAt': now,
-                                'date': formattedDate,
-                                'time': formattedTime,
-                                'title': titleController.text.toString(),
-                                'descriptions':
-                                    descriptionsController.text.toString(),
-                                'filter': selectedValue.toString(),
-                              };
+                                final data = {
+                                  'id': now.toString(),
+                                  'createdAt': now,
+                                  'date': formattedDate,
+                                  'time': formattedTime,
+                                  'title': titleController.text.toString(),
+                                  'descriptions':
+                                      descriptionsController.text.toString(),
+                                  'filter': selectedValue.toString(),
+                                };
 
-                              await fbStore
-                                  .collection('NewsUpdate')
-                                  .doc(now.toString())
-                                  .set(data);
+                                await fbStore
+                                    .collection('NewsUpdate')
+                                    .doc(now.toString())
+                                    .set(data);
 
-                              setState(() => isLoading = false);
-                              titleController.clear();
-                              descriptionsController.clear();
-                              selectedValue = 'Client';
-                              Navigator.of(context).pop();
-                            } catch (e) {
-                              print(e);
+                                setState(() => isLoading = false);
+                                titleController.clear();
+                                descriptionsController.clear();
+                                selectedValue = 'Client';
+                                Navigator.of(context).pop();
+                              } catch (e) {
+                                print(e);
+                              }
+                            } else {
+                              Navigator.pop(context);
                             }
                           },
                           child: Text('Done'),
@@ -201,4 +209,3 @@ class _NotificationsPageState extends State<NotificationsPage> {
     );
   }
 }
-
