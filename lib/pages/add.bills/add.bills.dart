@@ -160,6 +160,7 @@ class _AddBillsState extends State<AddBills> {
                   children: [
                     Container(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             children: [
@@ -255,6 +256,44 @@ class _AddBillsState extends State<AddBills> {
                                 ),
                               ],
                             ),
+                          isTextExisting && account.text.isNotEmpty ? Row(children: [
+                            StreamBuilder<DocumentSnapshot>(
+                              stream: FirebaseFirestore.instance
+                                  .collection('Accounts')
+                                  .doc(account.text)
+                                  .snapshots(),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasError) {
+                                  return Center(
+                                      child: Text('Error: ${snapshot.error}'));
+                                }
+
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                }
+
+                                if (!snapshot.hasData ||
+                                    !snapshot.data!.exists) {
+                                  return Center(
+                                      child: Text('Document does not exist'));
+                                }
+
+                                var doc = snapshot.data!;
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(children: [
+                                      doc['name'].toString().text.make(),
+                                    ],),
+                                    Row(children: [
+                                      doc['address'].toString().text.make(),
+                                    ],)
+                                  ],);
+                              },
+                            ),
+                          ],) : SizedBox(),
                           const SizedBox(height: 30),
                           Row(
                             children: [

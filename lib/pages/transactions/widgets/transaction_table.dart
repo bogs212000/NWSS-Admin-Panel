@@ -129,6 +129,12 @@ class _TransactionTableState extends State<TransactionTable> {
                         ),
                         DataColumn(
                           label: Text(
+                            'Month',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        DataColumn(
+                          label: Text(
                             'Amount',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
@@ -141,7 +147,7 @@ class _TransactionTableState extends State<TransactionTable> {
                         ),
                         DataColumn(
                           label: Text(
-                            '',
+                            'Action',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -159,6 +165,7 @@ class _TransactionTableState extends State<TransactionTable> {
                             DataCell(CustomText(text: data['name'])),
                             DataCell(CustomText(text: data['paymentId'])),
                             DataCell(CustomText(text: data['gcashRefNo'])),
+                            DataCell(CustomText(text: data['month'])),
                             DataCell(
                               CustomText(
                                   text: (data['amount'] as double).toString()),

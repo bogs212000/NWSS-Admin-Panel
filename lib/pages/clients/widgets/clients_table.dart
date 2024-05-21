@@ -5,6 +5,7 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nwss_admin/constants/style.dart';
+import 'package:nwss_admin/pages/clients/widgets/bills.dart';
 import 'package:nwss_admin/widgets/custom_text.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -123,7 +124,16 @@ class _ClientsTableState extends State<ClientsTable> {
                           Tooltip(
                             message: 'More',
                             child: GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                setState(() {
+                                  account_ID = data['account_ID'];
+                                });
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => BillsPage()),
+                                );
+
+                              },
                               child: Image.asset('assets/images/icons8-more.png',
                                   height: 25, width: 25),
                             ),

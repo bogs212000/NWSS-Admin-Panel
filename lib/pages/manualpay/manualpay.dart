@@ -55,8 +55,8 @@ class _ManualPayState extends State<ManualPay> {
     'December',
   ];
 
-  Future<void> checkIfTextExists(
-      String inputText, Function(bool) callback) async {
+  Future<void> checkIfTextExists(String inputText,
+      Function(bool) callback) async {
     try {
       var querySnapshot = await FirebaseFirestore.instance
           .collection('Accounts')
@@ -149,7 +149,9 @@ class _ManualPayState extends State<ManualPay> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      "${DateFormat('EEEE, yyyy-MM-dd').format(DateTime.now())}   ${DateFormat('h:mm a').format(DateTime.now())}",
+                      "${DateFormat('EEEE, yyyy-MM-dd').format(
+                          DateTime.now())}   ${DateFormat('h:mm a').format(
+                          DateTime.now())}",
                       style: const TextStyle(fontSize: 12),
                     )
                   ],
@@ -157,7 +159,10 @@ class _ManualPayState extends State<ManualPay> {
                 Row(
                   children: [
                     Container(
+                      height: 500,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Row(
                             children: [
@@ -215,74 +220,84 @@ class _ManualPayState extends State<ManualPay> {
                                 color: Colors.red,
                               ),
                             )
-                          else if (isTextExisting && account.text.isNotEmpty)
-                            Column(
-                              children: [
-                                Row(
-                                  children: const [
-                                    Text(
-                                      'Account exists',
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        color: Colors.green,
+                          else
+                            if (isTextExisting && account.text.isNotEmpty)
+                              Column(
+                                children: [
+                                  Row(
+                                    children: const [
+                                      Text(
+                                        'Account exists',
+                                        style: TextStyle(
+                                          fontSize: 10,
+                                          color: Colors.green,
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 10),
-                                Row(
-                                  children: [
-                                    cName != null
-                                        ? Text('$cName')
-                                        : const SizedBox(),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    cAdrress != null
-                                        ? Text('$cAdrress')
-                                        : const SizedBox(),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    cContactNum != null
-                                        ? Text('$cContactNum')
-                                        : const SizedBox(),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          const SizedBox(height: 30),
-                          Row(
-                            children: [
-                              'Enter the water consumption in the provided field.'
-                                  .text
-                                  .make(),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            children: [
-                              SizedBox(
-                                height: 60,
-                                width:
-                                ResponsiveWidget.isSmallScreen(context) ? 200 : 300,
-                                child: TextField(
-                                  controller: consumptionCubicMeter,
-                                  decoration: InputDecoration(
-                                    labelText: "Water Consumption(cubic meter)",
-                                    hintText: "0.0",
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
+                                    ],
                                   ),
-                                  keyboardType: const TextInputType.numberWithOptions(
-                                      decimal: true),
-                                ),
+                                  const SizedBox(height: 10),
+                                  Row(
+                                    children: [
+                                      cName != null
+                                          ? Text('$cName')
+                                          : const SizedBox(),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      cAdrress != null
+                                          ? Text('$cAdrress')
+                                          : const SizedBox(),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      cContactNum != null
+                                          ? Text('$cContactNum')
+                                          : const SizedBox(),
+                                    ],
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+
+                          isTextExisting && account.text.isNotEmpty ? Row(children: [
+                            StreamBuilder<DocumentSnapshot>(
+                              stream: FirebaseFirestore.instance
+                                  .collection('Accounts')
+                                  .doc(account.text)
+                                  .snapshots(),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasError) {
+                                  return Center(
+                                      child: Text('Error: ${snapshot.error}'));
+                                }
+
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                }
+
+                                if (!snapshot.hasData ||
+                                    !snapshot.data!.exists) {
+                                  return Center(
+                                      child: Text('Document does not exist'));
+                                }
+
+                                var doc = snapshot.data!;
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                  Row(children: [
+                                    doc['name'].toString().text.make(),
+                                  ],),
+                                  Row(children: [
+                                    doc['address'].toString().text.make(),
+                                  ],)
+                                ],);
+                              },
+                            ),
+                          ],) : SizedBox()
                         ],
                       ),
                     ),
@@ -290,7 +305,7 @@ class _ManualPayState extends State<ManualPay> {
                     Expanded(
                         child: Container(
                           color: Colors.blue,
-                          height: 300,
+                          height: 500,
                           child: Column(
                             children: [
                               SizedBox(height: 10),
@@ -298,13 +313,15 @@ class _ManualPayState extends State<ManualPay> {
                                 child: StreamBuilder(
                                   stream: FirebaseFirestore.instance
                                       .collection("biils")
-                                      .where('clientId', isEqualTo: account.text)
+                                      .where(
+                                      'clientId', isEqualTo: account.text)
                                       .snapshots(),
                                   builder: (BuildContext context,
                                       AsyncSnapshot<QuerySnapshot> snapshot) {
                                     if (snapshot.hasError) {
                                       return Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .center,
                                         children: const [
                                           Text(
                                             "Somthing went wrong!",
@@ -330,7 +347,8 @@ class _ManualPayState extends State<ManualPay> {
                                     }
                                     if (snapshot.data?.size == 0) {
                                       return Center(
-                                        child: Text('Input a valid account ID!'),
+                                        child: Text(
+                                            'Input a valid account ID!'),
                                       );
                                     }
                                     Row(children: const [
@@ -343,12 +361,14 @@ class _ManualPayState extends State<ManualPay> {
                                       padding: EdgeInsets.only(top: 10),
                                       children: snapshot.data!.docs
                                           .map((DocumentSnapshot document) {
-                                        Map<String, dynamic> data = document.data()!
+                                        Map<String, dynamic> data = document
+                                            .data()!
                                         as Map<String, dynamic>;
                                         var due = DateFormat('yyyy-MM-dd')
                                             .format(data['dueDate'].toDate());
                                         var afd =
-                                            data['billAmount'] + data['dueDateFee'];
+                                            data['billAmount'] +
+                                                data['dueDateFee'];
                                         return Padding(
                                           padding: const EdgeInsets.only(
                                               left: 5, right: 5, bottom: 10),
@@ -374,7 +394,8 @@ class _ManualPayState extends State<ManualPay> {
                                                     Row(
                                                       children: [
                                                         Text(
-                                                          data['month'].toString(),
+                                                          data['month']
+                                                              .toString(),
                                                           maxLines: 1,
                                                           softWrap: false,
                                                           overflow:
@@ -406,7 +427,9 @@ class _ManualPayState extends State<ManualPay> {
                                                         Text(
                                                             'Consumption(cubic meter) :'),
                                                         Spacer(),
-                                                        Text(document['consumption'].toString()),
+                                                        Text(
+                                                            document['consumption']
+                                                                .toString()),
                                                       ],
                                                     ),
                                                     Row(
@@ -426,7 +449,8 @@ class _ManualPayState extends State<ManualPay> {
                                                     ),
                                                     Row(
                                                       children: [
-                                                        Text('Amount after due :'),
+                                                        Text(
+                                                            'Amount after due :'),
                                                         Spacer(),
                                                         Text('₱${afd}'),
                                                       ],
@@ -467,161 +491,33 @@ class _ManualPayState extends State<ManualPay> {
                   ],
                 ),
                 const SizedBox(height: 30),
-                Container(
-                  child:
-                  'Enter the amount in the specified field. Ensure that the amount is accurate and corresponds to the required payment.'
-                      .text
-                      .make(),
-                  width: 500,
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    SizedBox(
-                      height: 60,
-                      width:
-                      ResponsiveWidget.isSmallScreen(context) ? 150 : 250,
-                      child: TextField(
-                        controller: amountController,
-                        decoration: InputDecoration(
-                          labelText: "Amount",
-                          hintText: "0.0",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        keyboardType: const TextInputType.numberWithOptions(
-                            decimal: true),
-                      ),
-                    ),
-                    SizedBox(width: 30),
-                    const Text("Select Month: "),
-                    DropdownButton<String>(
-                      focusColor: Colors.white,
-                      hint: const Text("Month"),
-                      value: dropdownvalue,
-                      icon: const Icon(Icons.keyboard_arrow_down),
-                      items: brgy.map((String brgy) {
-                        return DropdownMenuItem(
-                          value: brgy,
-                          child: Text(brgy),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownvalue = newValue!;
-                        });
-                        monthController.text = dropdownvalue;
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                "Use the date selectors to set the due date for the payment."
-                    .text
-                    .make(),
-                SizedBox(width: 10),
-                "Select due date:".text.bold.make(),
-                Row(
-                  children: [
-                    LinearDatePicker(
-                      startDate: "2024/01/01",
-                      endDate: "2025/01/01",
-                      initialDate: "2024/01/01",
-                      addLeadingZero: true,
-                      dateChangeListener: (String selectedDate) {
-                        DateTime dateNow =
-                        DateFormat('yyyy/MM/dd').parse(selectedDate);
-                        int timestamp = dateNow.millisecondsSinceEpoch;
-                        print('Timestamp: $timestamp');
-
-                        // Format the timestamp
-                        String formattedTimestamp =
-                        DateFormat('yyyy-MM-dd HH:mm:ss.SSSSSS')
-                            .format(dateNow);
-                        print('Formatted Timestamp: $formattedTimestamp');
-
-                        // Assuming you have a variable named 'date' in your state
-                        setState(() {
-                          date = formattedTimestamp;
-                        });
-
-                        print(selectedDate);
-                      },
-                      showDay: true,
-                      labelStyle: const TextStyle(
-                        fontFamily: 'sans',
-                        fontSize: 14.0,
-                        color: Colors.black,
-                      ),
-                      selectedRowStyle: const TextStyle(
-                        fontFamily: 'sans',
-                        fontSize: 15.0,
-                        color: Colors.deepOrange,
-                      ),
-                      unselectedRowStyle: const TextStyle(
-                        fontFamily: 'sans',
-                        fontSize: 13.0,
-                        color: Colors.blueGrey,
-                      ),
-                      yearText: "Year",
-                      monthText: "Month",
-                      dayText: "Day",
-                      showLabels: true,
-                      columnWidth: 70,
-                      showMonthName: true,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20),
-                'Ensure that the due date fee is correct.'
-                    .text
-                    .make(),
-                SizedBox(height: 10),
-                SizedBox(
-                  height: 60,
-                  width: ResponsiveWidget.isSmallScreen(context) ? 150 : 250,
-                  child: TextField(
-                    controller: dueAmount,
-                    decoration: InputDecoration(
-                      labelText: "Due date charges",
-                      hintText: "0.0",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    SizedBox(
-                      width: 100,
-                      child: InkWell(
-                        onTap: () async {
-                          _showConfirmationDialog(context);
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: active,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          alignment: Alignment.center,
-                          width: double.maxFinite,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: const CustomText(
-                            text: "Upload",
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 50),
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.end,
+                //   children: [
+                //     SizedBox(
+                //       width: 100,
+                //       child: InkWell(
+                //         onTap: () async {
+                //           _showConfirmationDialog(context);
+                //         },
+                //         child: Container(
+                //           decoration: BoxDecoration(
+                //             color: active,
+                //             borderRadius: BorderRadius.circular(20),
+                //           ),
+                //           alignment: Alignment.center,
+                //           width: double.maxFinite,
+                //           padding: const EdgeInsets.symmetric(vertical: 16),
+                //           child: const CustomText(
+                //             text: "Upload",
+                //             color: Colors.white,
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //     SizedBox(width: 30),
+                //   ],
+                // ),
                 const SizedBox(height: 10),
               ],
             ),

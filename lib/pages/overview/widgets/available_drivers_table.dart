@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nwss_admin/constants/style.dart';
 
@@ -21,10 +22,11 @@ class AvailableDriversTable extends StatefulWidget {
 class _AvailableDriversTableState extends State<AvailableDriversTable> {
   @override
   Widget build(BuildContext context) {
+    bool loading = false;
     bool showAllData = false;
     Future<List<DocumentSnapshot>> firebaseData() async {
       QuerySnapshot querySnapshot =
-          await _firestore.collection('Transaction').get();
+          await _firestore.collection('clientsPayment').get();
       return querySnapshot.docs;
     }
 
@@ -82,61 +84,108 @@ class _AvailableDriversTableState extends State<AvailableDriversTable> {
                       ? snapshot.data!
                       : snapshot.data!.take(10).toList();
                   return DataTable2(
-                    columnSpacing: 12,
-                    dataRowHeight: 56,
-                    headingRowHeight: 40,
-                    horizontalMargin: 12,
+                    columnSpacing: 5,
+                    dataRowHeight: 40,
+                    headingRowHeight: 30,
+                    horizontalMargin: 5,
                     minWidth: 600,
                     columns: const [
                       DataColumn2(
-                        label: Text("Name"),
+                        label: Text(
+                          "Name",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                         size: ColumnSize.L,
                       ),
                       DataColumn(
-                        label: Text('Address'),
+                        label: Text(
+                          'Payment ref ID',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
                       DataColumn(
-                        label: Text('Payments'),
+                        label: Text(
+                          'ref no.',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
                       DataColumn(
-                        label: Text('Action'),
+                        label: Text(
+                          'Month',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Amount',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          'Date',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ],
-                    rows: dataToShow.map((doc) {
+                    rows: snapshot.data!.map((doc) {
                       Map<String, dynamic> data =
-                          doc.data() as Map<String, dynamic>;
+                      doc.data() as Map<String, dynamic>;
+                      Timestamp timestamp = data['createdAt'] as Timestamp;
+                      DateTime dateTime = timestamp.toDate();
+                      DateFormat formatter =
+                      DateFormat('yyyy-MM-dd HH:mm:ss');
+                      String formattedDate = formatter.format(dateTime);
                       return DataRow(
                         cells: [
                           DataCell(CustomText(text: data['name'])),
-                          DataCell(CustomText(text: data['address'])),
+                          DataCell(CustomText(text: data['paymentId'])),
+                          DataCell(CustomText(text: data['gcashRefNo'])),
+                          DataCell(CustomText(text: data['month'])),
                           DataCell(
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(Icons.money, color: Colors.blue, size: 18),
-                                SizedBox(width: 5),
-                                CustomText(
-                                    text: data['payments_amount'].toString()),
-                              ],
-                            ),
+                            CustomText(
+                                text: (data['amount'] as double).toString()),
                           ),
                           DataCell(
-                            Container(
-                              decoration: BoxDecoration(
-                                color: light,
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                    color: Colors.green.shade500, width: .5),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 6),
-                              child: CustomText(
-                                text: data['action'],
-                                color: Colors.green.withOpacity(.7),
-                                weight: FontWeight.bold,
-                              ),
-                            ),
+                            CustomText(text: formattedDate),
                           ),
+                          // DataCell(Row(
+                          //   children: [
+                          //     data['confirmed?'] == false
+                          //         ? SizedBox(
+                          //         width: 100,
+                          //         child: ElevatedButton(
+                          //             onPressed: () async {
+                          //               setState(() {
+                          //                 loading = true;
+                          //               });
+                          //               try{
+                          //                 await FirebaseFirestore.instance
+                          //                     .collection("biils")
+                          //                     .doc(data['paymentId'])
+                          //                     .update({
+                          //                   "paid?": true,
+                          //                 });
+                          //                 await FirebaseFirestore.instance
+                          //                     .collection("clientsPayment")
+                          //                     .doc(data['gcashRefNo'])
+                          //                     .update({
+                          //                   'confirmed?': true,
+                          //                 });
+                          //                 setState(() {
+                          //                   loading = false;
+                          //                 });
+                          //               } catch(e){
+                          //                 setState(() {
+                          //                   loading = false;
+                          //                 });
+                          //                 print(e);}
+                          //
+                          //             },
+                          //             child: Text('Confirm')))
+                          //         : SizedBox()
+                          //   ],
+                          // )),
                         ],
                       );
                     }).toList(),

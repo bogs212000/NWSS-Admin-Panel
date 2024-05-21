@@ -37,32 +37,7 @@ class _ClientsPageState extends State<ClientsPage> {
             ],
           );
         }),
-        const SizedBox(height: 40),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            SizedBox(
-              height: 40,
-              width: ResponsiveWidget.isSmallScreen(context) ? 100 : 250,
-              child: TextField(
-                controller: searchController,
-                decoration: InputDecoration(
-                  labelText: "Search",
-                  hintText: "",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                onChanged: (text) {
-                  setState(() {
-                    searchClients = text;
-                  });
-                },
-              ),
-            )
-          ],
-        ),
-        SizedBox(height: 10),
+        SizedBox(height: 50),
         Expanded(
           child: const ClientsTable(),
         ),

@@ -5,6 +5,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nwss_admin/constants/controllers.dart';
 import 'package:nwss_admin/helpers/reponsiveness.dart';
+import 'package:nwss_admin/pages/control/widgets/webview.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TermsAndConditions extends StatefulWidget {
   const TermsAndConditions({super.key});
@@ -18,6 +20,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
       TextEditingController();
   bool isSaving = false;
   bool isTextFieldEmpty = true;
+  final String url = termsConditionsLink.toString();
 
   @override
   void initState() {
@@ -63,7 +66,12 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
                   Text('Terms and Conditions', style: TextStyle(fontSize: 10),),
                   Spacer(),
                   GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(builder: (context) => WebViewScreen()),
+                        // );
+                      },
                       child: Icon(Icons.arrow_circle_right_outlined,
                           color: Colors.grey)),
                 ],
@@ -176,4 +184,5 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
         .animate(delay: Duration(milliseconds: 100))
         .fadeIn(duration: 100.ms, curve: Curves.easeIn);
   }
+
 }
