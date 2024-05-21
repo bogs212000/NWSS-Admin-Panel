@@ -653,7 +653,7 @@ class _AddBillsState extends State<AddBills> {
                           alignment: Alignment.center,
                           width: double.maxFinite,
                           padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: const CustomText(
+                          child: CustomText(
                             text: "Upload",
                             color: Colors.white,
                           ),

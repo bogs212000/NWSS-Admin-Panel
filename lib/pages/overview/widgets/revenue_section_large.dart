@@ -86,7 +86,7 @@ class _RevenueSectionLargeState extends State<RevenueSectionLarge> {
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.w100),
                   ),
                   Spacer(),
-                  const CustomText(
+                 CustomText(
                     text: "",
                     size: 15,
                     weight: FontWeight.bold,
@@ -175,7 +175,7 @@ class _RevenueSectionLargeState extends State<RevenueSectionLarge> {
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.w100),
                   ),
                   Spacer(),
-                  const CustomText(
+                  CustomText(
                     text: "",
                     size: 15,
                     weight: FontWeight.bold,
@@ -277,7 +277,7 @@ class _RevenueSectionLargeState extends State<RevenueSectionLarge> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const CustomText(
+                    CustomText(
                       text: "Water Consumption",
                       size: 20,
                       weight: FontWeight.bold,
@@ -298,7 +298,7 @@ class _RevenueSectionLargeState extends State<RevenueSectionLarge> {
                   children: [
                     Row(
                       children: [
-                        const CustomText(
+                         CustomText(
                           text: "Current water price   ",
                           size: 15,
                           weight: FontWeight.bold,
@@ -325,7 +325,7 @@ class _RevenueSectionLargeState extends State<RevenueSectionLarge> {
                               return CustomText(
                                 text: data == null
                                     ? "Fetching data, please reload the page"
-                                    : data['current'].toString(),
+                                    : '₱${data['current'].toString()}per Cubic meter',
                                 // Replace 'yourField' with the actual field name
                                 size: 13,
                                 weight: FontWeight.bold,

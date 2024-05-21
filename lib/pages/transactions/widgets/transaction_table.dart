@@ -53,7 +53,7 @@ class _TransactionTableState extends State<TransactionTable> {
     bool loading = false;
     Future<List<DocumentSnapshot>> firebaseData() async {
       QuerySnapshot querySnapshot = await _firestore
-          .collection('clientsPayment')
+          .collection('clientsPayment').orderBy('createdAt', descending: true)
           .get();
       return querySnapshot.docs;
     }
@@ -168,7 +168,7 @@ class _TransactionTableState extends State<TransactionTable> {
                             DataCell(CustomText(text: data['month'])),
                             DataCell(
                               CustomText(
-                                  text: (data['amount'] as double).toString()),
+                                  text: '₱ ${data['amount'].toString()}'),
                             ),
                             DataCell(
                               CustomText(text: formattedDate),

@@ -184,7 +184,7 @@ class _RevenueSectionSmallState extends State<RevenueSectionSmall> {
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.w100),
                   ),
                   Spacer(),
-                  const CustomText(
+                  CustomText(
                     text: "",
                     size: 15,
                     weight: FontWeight.bold,
@@ -227,7 +227,7 @@ class _RevenueSectionSmallState extends State<RevenueSectionSmall> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const CustomText(
+                    CustomText(
                       text: "Consumed ",
                       size: 20,
                       weight: FontWeight.bold,
@@ -249,7 +249,7 @@ class _RevenueSectionSmallState extends State<RevenueSectionSmall> {
                   children: [
                     Row(
                       children: [
-                        const CustomText(
+                     CustomText(
                           text: "Current water price",
                           size: 15,
                           weight: FontWeight.bold,

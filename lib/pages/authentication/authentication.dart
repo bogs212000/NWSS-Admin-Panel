@@ -58,7 +58,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
               const SizedBox(
                 height: 10,
               ),
-              const Row(
+              Row(
                 children: [
                   CustomText(
                     text: "Welcome back to NWSS admin panel.",
@@ -110,7 +110,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
               const SizedBox(
                 height: 15,
               ),
-              const Row(
+               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // Row(
@@ -154,7 +154,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                   alignment: Alignment.center,
                   width: double.maxFinite,
                   padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: const CustomText(
+                  child: CustomText(
                     text: "Login",
                     color: Colors.white,
                   ),

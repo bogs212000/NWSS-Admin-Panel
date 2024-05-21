@@ -26,7 +26,7 @@ class _AvailableDriversTableState extends State<AvailableDriversTable> {
     bool showAllData = false;
     Future<List<DocumentSnapshot>> firebaseData() async {
       QuerySnapshot querySnapshot =
-          await _firestore.collection('clientsPayment').get();
+          await _firestore.collection('clientsPayment').orderBy('createdAt', descending: true).get();
       return querySnapshot.docs;
     }
 
@@ -89,7 +89,7 @@ class _AvailableDriversTableState extends State<AvailableDriversTable> {
                     headingRowHeight: 30,
                     horizontalMargin: 5,
                     minWidth: 600,
-                    columns: const [
+                    columns: [
                       DataColumn2(
                         label: Text(
                           "Name",
@@ -144,7 +144,7 @@ class _AvailableDriversTableState extends State<AvailableDriversTable> {
                           DataCell(CustomText(text: data['month'])),
                           DataCell(
                             CustomText(
-                                text: (data['amount'] as double).toString()),
+                                text: '₱ ${data['amount'].toString()}'),
                           ),
                           DataCell(
                             CustomText(text: formattedDate),

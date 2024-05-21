@@ -165,7 +165,7 @@ class _SignUpState extends State<SignUp> {
                         alignment: Alignment.center,
                         width: double.maxFinite,
                         padding: const EdgeInsets.symmetric(vertical: 16),
-                        child: const CustomText(
+                        child:  CustomText(
                           text: "Request",
                           color: Colors.white,
                         ),

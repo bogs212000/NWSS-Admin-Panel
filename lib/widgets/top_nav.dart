@@ -31,7 +31,7 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
         children: [
           Visibility(
               visible: !ResponsiveWidget.isSmallScreen(context),
-              child: const CustomText(
+              child: CustomText(
                 text: "Admin",
                 color: dark,
                 size: 20,
